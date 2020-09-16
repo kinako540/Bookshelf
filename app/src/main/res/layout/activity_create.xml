@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.create.CreateActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="4000dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:ignore="MissingConstraints">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="4000dp"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="135dp"
+                android:layout_height="181dp"
+                android:layout_marginTop="36dp"
+                android:src="@drawable/select_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                android:scaleType="centerInside"/>
+
+            <EditText
+                android:id="@+id/editTitle"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Title"
+                android:inputType="textPersonName"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="タイトル"
+                app:layout_constraintBottom_toTopOf="@+id/editTitle"
+                app:layout_constraintStart_toStartOf="@+id/editTitle" />
+
+            <EditText
+                android:id="@+id/editAuthorName"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+            <TextView
+                android:id="@+id/textAuthorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="作者"
+                app:layout_constraintBottom_toTopOf="@+id/editAuthorName"
+                app:layout_constraintStart_toStartOf="@+id/editAuthorName" />
+
+            <EditText
+                android:id="@+id/editPublisher"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Publisher"
+                android:inputType="textPersonName"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editAuthorName" />
+            <TextView
+                android:id="@+id/textPublisher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="出版社/サークル名"
+                app:layout_constraintBottom_toTopOf="@+id/editPublisher"
+                app:layout_constraintStart_toStartOf="@+id/editPublisher" />
+
+            <EditText
+                android:id="@+id/editIssuedDate"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Publisher"
+                android:inputType="textPersonName"
+                android:textSize="20sp"
+                android:maxLength="8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editPublisher" />
+            <TextView
+                android:id="@+id/textIssuedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="発行日"
+                app:layout_constraintBottom_toTopOf="@+id/editIssuedDate"
+                app:layout_constraintStart_toStartOf="@+id/editIssuedDate" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
