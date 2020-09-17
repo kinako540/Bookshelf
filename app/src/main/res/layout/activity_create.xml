@@ -6,16 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.create.CreateActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="4000dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="4000dp"
+            android:layout_height="400dp"
             android:background="#FFFFFF"
             android:orientation="vertical">
 
@@ -24,12 +23,12 @@
                 android:layout_width="135dp"
                 android:layout_height="181dp"
                 android:layout_marginTop="36dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/select_img"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/backgrounds/scenic"
-                android:scaleType="centerInside"/>
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <EditText
                 android:id="@+id/editTitle"
@@ -65,6 +64,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+
             <TextView
                 android:id="@+id/textAuthorName"
                 android:layout_width="wrap_content"
@@ -86,6 +86,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAuthorName" />
+
             <TextView
                 android:id="@+id/textPublisher"
                 android:layout_width="wrap_content"
@@ -101,13 +102,18 @@
                 android:layout_height="41dp"
                 android:layout_marginTop="24dp"
                 android:ems="10"
-                android:hint="Publisher"
+                android:hint="2020/1/1"
                 android:inputType="textPersonName"
+                android:maxLength="15"
                 android:textSize="20sp"
-                android:maxLength="8"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPublisher" />
+
             <TextView
                 android:id="@+id/textIssuedDate"
                 android:layout_width="wrap_content"
@@ -117,9 +123,143 @@
                 app:layout_constraintBottom_toTopOf="@+id/editIssuedDate"
                 app:layout_constraintStart_toStartOf="@+id/editIssuedDate" />
 
+            <EditText
+                android:id="@+id/editPage"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="100"
+                android:inputType="textPersonName"
+                android:maxLength="9"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editIssuedDate" />
+
+            <TextView
+                android:id="@+id/textPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="ページ数"
+                app:layout_constraintBottom_toTopOf="@+id/editPage"
+                app:layout_constraintStart_toStartOf="@+id/editPage" />
+
+            <EditText
+                android:id="@+id/editGenre"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="漫画"
+                android:inputType="textPersonName"
+                android:maxLength="15"
+                android:textSize="18sp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editPage" />
+
+            <TextView
+                android:id="@+id/textGenre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="作品ジャンル"
+                app:layout_constraintBottom_toTopOf="@+id/editGenre"
+                app:layout_constraintStart_toStartOf="@+id/editGenre" />
+
+            <EditText
+                android:id="@+id/editCopyright"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="本作品は二次創作ではない"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:maxLength="15"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editGenre" />
+
+            <TextView
+                android:id="@+id/textCopyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="オリジナル"
+                app:layout_constraintBottom_toTopOf="@+id/editCopyright"
+                app:layout_constraintStart_toStartOf="@+id/editCopyright" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCopyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="244dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toEndOf="@+id/textCopyright"
+                app:layout_constraintTop_toBottomOf="@+id/editGenre" />
+
+            <EditText
+                android:id="@+id/editRating"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="全年齢対象"
+                android:inputType="textPersonName"
+                android:maxLength="15"
+                android:textSize="18sp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editCopyright" />
+
+            <TextView
+                android:id="@+id/textRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="対象年齢"
+                app:layout_constraintBottom_toTopOf="@+id/editRating"
+                app:layout_constraintStart_toStartOf="@+id/editRating" />
+
+            <EditText
+                android:id="@+id/editTag"
+                android:layout_width="350dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Tag"
+                android:inputType="textPersonName"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editRating" />
+
+            <TextView
+                android:id="@+id/textTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="タグ"
+                app:layout_constraintBottom_toTopOf="@+id/editTag"
+                app:layout_constraintStart_toStartOf="@+id/editTag" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

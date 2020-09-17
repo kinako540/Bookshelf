@@ -40,7 +40,6 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val toastButton: Button = view.findViewById(R.id.button_self)
         toastButton.setOnClickListener {
-            Toast.makeText(requireContext(), "こんにちは", Toast.LENGTH_SHORT).show()
             val intent = Intent(requireContext(), CreateActivity::class.java)
             startActivity(intent)
         }
