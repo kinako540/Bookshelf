@@ -20,6 +20,7 @@ class CreateActivity : AppCompatActivity() {
     // ジャンル
     val genreList = arrayOf("漫画","雑誌","小説")
     val ratingList = arrayOf("全年齢対象","春画","R-18","R-18G")
+    val possessionList = arrayOf("未所持","デジタル","実物","両方")
     //版権
     private var copyright = false
 
@@ -65,6 +66,13 @@ class CreateActivity : AppCompatActivity() {
         rating.isFocusable = false
         rating.setOnClickListener{
             dialogR()
+        }
+
+        //所持状況
+        var possession = findViewById<EditText>(R.id.editPossession)
+        possession.isFocusable = false
+        possession.setOnClickListener{
+            dialogP()
         }
 
 
@@ -133,6 +141,30 @@ class CreateActivity : AppCompatActivity() {
                 }
                 else if(which == 3){
                     body.setText("R-18G", TextView.BufferType.NORMAL)
+                }
+            }
+            .setPositiveButton("OK") { dialog, which ->
+                // TODO:Yesが押された時の挙動
+            }
+            .show()
+    }
+    //所持状況
+    private fun dialogP(){
+        val body = findViewById<View?>(R.id.editPossession) as EditText
+        AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+            .setTitle("所持状況")
+            .setItems(possessionList) { dialog, which ->
+                if(which == 0){
+                    body.setText("未所持", TextView.BufferType.NORMAL)
+                }
+                else if(which == 1){
+                    body.setText("デジタル", TextView.BufferType.NORMAL)
+                }
+                else if(which == 2){
+                    body.setText("実物", TextView.BufferType.NORMAL)
+                }
+                else if(which == 3){
+                    body.setText("両方", TextView.BufferType.NORMAL)
                 }
             }
             .setPositiveButton("OK") { dialog, which ->

@@ -166,9 +166,9 @@ class MainActivity : AppCompatActivity() {
             for(i in 0..9){
                 userTag[loadNo][i]  = data.getString ("USER_TAG"        ,null)
             }
-            describe       [loadNo] = data.getString ("USER_TAG"        ,null)
-            possession     [loadNo] = data.getInt    ("PAGE"            ,0)
-            price          [loadNo] = data.getInt    ("USER_TAG"        ,0)
+            describe       [loadNo] = data.getString ("DESCRIBE"        ,null)
+            possession     [loadNo] = data.getInt    ("POSSESSION"            ,0)
+            price          [loadNo] = data.getInt    ("PRICE"        ,0)
             storageLocation[loadNo] = data.getString ("STORAGE_LOCATION",null)
             getLocation    [loadNo] = data.getString ("GET_LOCATION"    ,null)
             saveDate       [loadNo] = data.getBoolean("SAVE_DATE"       ,false)
