@@ -23,5 +23,5 @@ data class bookdb(
     var possession      : Int?,
     var price           : Int?,
     var storageLocation : String?,
-    var saveDate        :Boolean?
+    var saveDate        : Boolean?
 )
