@@ -1,11 +1,11 @@
-package com.example.bookshelf
+package com.example.bookshelf.Database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class bookdb(
+data class books(
     @PrimaryKey(autoGenerate = true)val id: Int,
 
     var bookTitle       : String,
