@@ -3,7 +3,7 @@ package com.example.bookshelf.Database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [books::class], version = 1)
+@Database(entities = [Book::class], version = 1)
 abstract class BookDatabase : RoomDatabase() {
-    abstract fun bookDao()  : BookDao
+    abstract fun bookDao(): BookDao
 }

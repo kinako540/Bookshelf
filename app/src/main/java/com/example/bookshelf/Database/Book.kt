@@ -1,11 +1,12 @@
 package com.example.bookshelf.Database
 
+import androidx.annotation.IntegerRes
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class books(
+data class Book(
     @PrimaryKey(autoGenerate = true)val id: Int,
 
     var bookTitle       : String,
@@ -15,7 +16,7 @@ data class books(
     var recordDate      : String?,
     var page            : Int?,
     var basicGenre      : String?,
-    var copyright       : Boolean?,
+    var copyright       : Int?,
     var rating          : Int?,
     var favorite        : Int?,
     //var userTag        :
@@ -23,5 +24,5 @@ data class books(
     var possession      : Int?,
     var price           : Int?,
     var storageLocation : String?,
-    var saveDate        : Boolean?
+    var saveDate        : Int?
 )

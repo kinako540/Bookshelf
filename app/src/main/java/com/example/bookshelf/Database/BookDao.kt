@@ -4,15 +4,16 @@ import androidx.room.*
 
 @Dao
 interface BookDao {
-    @Query("SELECT * FROM books")
-    fun getAll(): List<books>
+    @Query("SELECT * FROM Book")
+    fun getAll(): List<Book>
 
     @Insert
-    fun insert(user: books)
+    fun insert(book: Book)
 
     @Update
-    fun update(user: books)
+    fun update(book: Book)
 
     @Delete
-    fun delete(user: books)
+    fun delete(book: Book)
+
 }
