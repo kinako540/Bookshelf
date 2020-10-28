@@ -88,12 +88,14 @@ class CreateActivity : AppCompatActivity() {
                 BookDatabase::class.java, "database-name"
             ).build()
             val bookDao = db.bookDao()
+
             val newBook = Book(
                 0, "", "", "",
                 "", "", 0, "", 0,
                 0, 0, "", 0, 0, "",
                 0
-            )
+            )//ここに入力値突っ込んでね☆
+
             bookDao.insert(newBook)
             onDestroy()
         }
