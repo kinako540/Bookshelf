@@ -1,5 +1,6 @@
 package com.example.bookshelf.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import com.example.bookshelf.CustomAdapter
 import com.example.bookshelf.CustomAdapter2
 import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
+import com.example.bookshelf.ui.create.CreateActivity
+import com.example.bookshelf.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -37,6 +40,8 @@ class HomeFragment : Fragment() {
                     Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT).show()
                     if(position == 0){
                         Toast.makeText(requireContext(), "こんにちは", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), InfoActivity::class.java)
+                        startActivity(intent)
                     }
                     else{
                         Toast.makeText(requireContext(), "あああああ", Toast.LENGTH_SHORT).show()
