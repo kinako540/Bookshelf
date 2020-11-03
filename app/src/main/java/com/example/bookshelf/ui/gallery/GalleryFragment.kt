@@ -51,8 +51,8 @@ class GalleryFragment : Fragment() {
         GalleryFragment =
             ViewModelProviders.of(this).get(GalleryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_create_top, container, false)
-        //GalleryViewModel.text.observe(viewLifecycleOwner, Observer {
-        //})
+        /*GalleryViewModel.text.observe(viewLifecycleOwner, Observer {
+        })*/
 
         return root
     }
