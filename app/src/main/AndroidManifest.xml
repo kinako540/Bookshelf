@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.bookshelf">
+
+    <uses-sdk
+        tools:overrideLibrary="
+        androidx.camera.camera2, androidx.camera.core,
+        androidx.camera.view, androidx.camera.lifecycle"/>
 
     <application
         android:name=".BookDate"
