@@ -2,6 +2,8 @@ package com.example.bookshelf.ui.create
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.ContentValues
+import android.icu.text.Collator.getInstance
 import android.os.Bundle
 import android.provider.SyncStateContract.Helpers.insert
 import android.text.InputType
@@ -9,14 +11,15 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import com.example.bookshelf.Database.Book
-import com.example.bookshelf.Database.BookDao
-import com.example.bookshelf.Database.BookDatabase
 import com.example.bookshelf.R
 import kotlinx.android.synthetic.main.activity_create.*
-import java.text.Collator.getInstance
-
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.util.Log
+import com.example.bookshelf.Database.*
+import java.io.ByteArrayOutputStream
 
 class CreateActivity : AppCompatActivity() {
     var setYear = 2020
@@ -83,21 +86,27 @@ class CreateActivity : AppCompatActivity() {
 
         //登録ボタン
         button.setOnClickListener{
-            val db = Room.databaseBuilder(
-                applicationContext,
-                BookDatabase::class.java, "database-name"
-            ).build()
-            val bookDao = db.bookDao()
+            val dbHelper = BookDBHelper(applicationContext,"Book",null,1)
+            val database = dbHelper.writableDatabase
 
-            val newBook = Book(
-                0, "", "", "",
-                "", "", 0, "", 0,
-                0, 0, "", 0, 0, "",
-                0
-            )//ここに入力値突っ込んでね☆
+            fun insertData(id: String, name: String, type: Int, bitmap: Bitmap) {
+                try {
+                    val dbHelper = BookDBHelper(applicationContext, Book, null, 1);
+                    val database = dbHelper.writableDatabase
 
-            bookDao.insert(newBook)
-            onDestroy()
+                    val values = ContentValues()
+                    values.put("id", id)
+                    values.put("name", name)
+                    values.put("type", type)
+
+                    database.insertOrThrow(Book, null, values)
+                }catch(exception: Exception) {
+                    Log.e("insertData", exception.toString())
+                }
+            }
+        }
+
+
         }
 
 

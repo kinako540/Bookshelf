@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 data class Book(
     @PrimaryKey(autoGenerate = true)val id: Int,
 
-    var bookTitle       : String,
+    var bookTitle       : String?,
     var authorName      : String?,
     var publisher       : String?,
     var issuedDate      : String?,
@@ -19,7 +19,6 @@ data class Book(
     var copyright       : Int?,
     var rating          : Int?,
     var favorite        : Int?,
-    //var userTag        :
     var describe        : String?,
     var possession      : Int?,
     var price           : Int?,
