@@ -111,6 +111,7 @@ class CreateActivity : AppCompatActivity() {
                     values.put("storageLocation","")
                     values.put("saveDate", 20201010)
 
+                    
                     database.insertOrThrow("Book", null, values)
                 } catch (exception: Exception) {
                     Log.e("insertData", exception.toString())
