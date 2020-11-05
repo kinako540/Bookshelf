@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
             list = Array<String>(10) {"テキスト$it"}
             var adapter = CustomAdapter2(list)
             // アダプターとレイアウトマネージャーをセット
-            simpleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+            simpleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
             simpleRecyclerView.adapter = adapter
             simpleRecyclerView.setHasFixedSize(true)
             // インターフェースの実装
