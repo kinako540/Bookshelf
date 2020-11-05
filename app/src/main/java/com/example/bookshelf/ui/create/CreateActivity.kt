@@ -88,13 +88,13 @@ class CreateActivity : AppCompatActivity() {
         button.setOnClickListener {
             val dbHelper = BookDBHelper(applicationContext, "Book", null, 1)
             val database = dbHelper.writableDatabase
-            
+
                 try {
                     val dbHelper = BookDBHelper(applicationContext, "Book", null, 1);
                     val database = dbHelper.writableDatabase
 
                     val values = ContentValues()
-                    values.put("id", 1)
+                    values.put("id", 1)//("カラム名", 値)
                     values.put("title", "モゲます")
                     values.put("authorName", "やまだ")
                     values.put("publisher", "うどん")
