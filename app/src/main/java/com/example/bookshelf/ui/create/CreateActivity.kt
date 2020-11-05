@@ -102,7 +102,7 @@ class CreateActivity : AppCompatActivity() {
                     values.put("recordDate", 20200101)
                     values.put("page", 100)
                     values.put("basicGenre", "")
-                    values.put ("copyright", 0)
+                    values.put("copyright", 0)
                     values.put("rating", 0)
                     values.put("favorite", 0)
                     values.put("describe","")
