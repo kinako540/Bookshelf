@@ -85,33 +85,42 @@ class CreateActivity : AppCompatActivity() {
         }
 
         //登録ボタン
-        button.setOnClickListener{
-            val dbHelper = BookDBHelper(applicationContext,"Book",null,1)
+        button.setOnClickListener {
+            val dbHelper = BookDBHelper(applicationContext, "Book", null, 1)
             val database = dbHelper.writableDatabase
 
             fun insertData(id: String, name: String, type: Int, bitmap: Bitmap) {
                 try {
-                    val dbHelper = BookDBHelper(applicationContext, Book, null, 1);
+                    val dbHelper = BookDBHelper(applicationContext, "Book", null, 1);
                     val database = dbHelper.writableDatabase
 
                     val values = ContentValues()
-                    values.put("id", id)
-                    values.put("name", name)
-                    values.put("type", type)
+                    values.put("id", 1)
+                    values.put("authorName", "やまだ")
+                    values.put("publisher", "やまだ")
+                    values.put("issuedDate", 20200101)
+                    values.put("recordDate", 20200101)
+                    values.put("page", 100)
+                    values.put("basicGenre", "")
+                    values.put ("copyright", 0)
+                    values.put("rating", 0)
+                    values.put("favorite", 0)
+                    values.put("describe","")
+                    values.put("possession", 0)
+                    values.put("price",0)
+                    values.put("storageLocation","")
+                    values.put("saveDate", 20201010)
 
-                    database.insertOrThrow(Book, null, values)
-                }catch(exception: Exception) {
+
+
+                    database.insertOrThrow("Book", null, values)
+                } catch (exception: Exception) {
                     Log.e("insertData", exception.toString())
                 }
             }
         }
-
-
-        }
-
-
-
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
