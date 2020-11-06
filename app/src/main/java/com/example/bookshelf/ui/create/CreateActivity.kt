@@ -16,10 +16,9 @@ import kotlinx.android.synthetic.main.activity_create.*
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.graphics.Bitmap
 import android.util.Log
 import com.example.bookshelf.Database.*
-import java.io.ByteArrayOutputStream
+import java.time.LocalDate
 
 class CreateActivity : AppCompatActivity() {
     var setYear = 2020
@@ -94,24 +93,24 @@ class CreateActivity : AppCompatActivity() {
                     val database = dbHelper.writableDatabase
 
                     val values = ContentValues()
-                    values.put("id", 1)//("カラム名", 値)
-                    values.put("title", "モゲます")
-                    values.put("authorName", "やまだ")
-                    values.put("publisher", "うどん")
-                    values.put("issuedDate", 20200101)
-                    values.put("recordDate", 20200101)
-                    values.put("page", 100)
-                    values.put("basicGenre", "")
-                    values.put("copyright", 0)
-                    values.put("rating", 0)
-                    values.put("favorite", 0)
+                    //("カラム名", 値)
+                    values.put("title", editTitle.text.toString())
+                    values.put("authorName", editAuthorName.text.toString())
+                    values.put("publisher", editPublisher.text.toString())
+                    values.put("issuedDate", editIssuedDate.text.toString())
+                    values.put("recordDate", "")
+                    values.put("page", editPage.text.toString())
+                    values.put("basicGenre", editGenre.text.toString())
+                    values.put("copyright", editCopyright.text.toString())
+                    values.put("rating", editRating.text.toString())
+                    values.put("favorite", "")
                     values.put("describe","")
-                    values.put("possession", 0)
-                    values.put("price",0)
+                    values.put("possession", editPossession.text.toString())
+                    values.put("price","")
                     values.put("storageLocation","")
-                    values.put("saveDate", 20201010)
+                    values.put("saveDate", "")
 
-                    
+
                     database.insertOrThrow("Book", null, values)
                 } catch (exception: Exception) {
                     Log.e("insertData", exception.toString())
