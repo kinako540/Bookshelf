@@ -14,10 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.bookshelf.R
 import kotlinx.android.synthetic.main.activity_create.*
 import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import com.example.bookshelf.Database.*
+import com.example.bookshelf.ui.gallery.GalleryFragment
 import java.time.LocalDate
 
 class CreateActivity : AppCompatActivity() {
@@ -33,10 +37,21 @@ class CreateActivity : AppCompatActivity() {
     //版権
     private var copyright = false
 
+    //画像
+    var bookImage: Bitmap? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //イメージボタン
+        var img = findViewById<ImageButton>(R.id.imageButton)
+        img.isFocusable = false
+        img.setOnClickListener {
+            //startChooseImageIntentForResult()
+            selectPhoto()
+        }
 
         //発行日
         var date = findViewById<EditText>(R.id.editIssuedDate)
@@ -208,6 +223,39 @@ class CreateActivity : AppCompatActivity() {
                 // TODO:Yesが押された時の挙動
             }
             .show()
+    }
+
+    private fun selectPhoto() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }
+        startActivityForResult(intent, READ_REQUEST_CODE)
+    }
+
+    companion object {
+        private const val READ_REQUEST_CODE: Int = 42
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (resultCode != RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+            READ_REQUEST_CODE -> {
+                try {
+                    resultData?.data?.also { uri ->
+                        val inputStream = contentResolver?.openInputStream(uri)
+                        bookImage = BitmapFactory.decodeStream(inputStream)
+                        val img = findViewById<ImageView>(R.id.imageButton)
+                        img.setImageBitmap(bookImage)
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
 
