@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EAD1A8">
+    android:background="#00FFFFFF">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="46dp">
+        tools:layout_editor_absoluteY="88dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
@@ -20,303 +20,331 @@
             android:layout_height="400dp"
             android:orientation="vertical">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.06" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.94" />
+
             <TextView
                 android:id="@+id/bookName"
-                android:layout_width="382dp"
-                android:layout_height="32dp"
+                android:layout_width="340dp"
+                android:layout_height="31dp"
                 android:layout_marginTop="16dp"
                 android:text="モゲます 総集編"
                 android:textAlignment="gravity"
                 android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textSafeIcon"
-                android:layout_width="86dp"
-                android:layout_height="28dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/flame_safe"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingRight="4dp"
-                android:paddingBottom="4dp"
-                android:text="一般向け"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/bookName"
-                app:layout_constraintTop_toBottomOf="@+id/bookName" />
+                <TextView
+                    android:id="@+id/textSafeIcon"
+                    android:layout_width="86dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/flame_safe"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="一般向け"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/bookName"
+                    app:layout_constraintTop_toBottomOf="@+id/bookName" />
 
-            <TextView
-                android:id="@+id/textSpicyIcon"
-                android:layout_width="126dp"
-                android:layout_height="28dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/flame_spicy"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingRight="4dp"
-                android:paddingBottom="4dp"
-                android:text="過激な表現あり"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/bookName"
-                app:layout_constraintTop_toBottomOf="@+id/bookName" />
+                <TextView
+                    android:id="@+id/textSpicyIcon"
+                    android:layout_width="126dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/flame_spicy"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="過激な表現あり"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/bookName"
+                    app:layout_constraintTop_toBottomOf="@+id/bookName" />
 
-            <TextView
-                android:id="@+id/textR-18Icon"
-                android:layout_width="86dp"
-                android:layout_height="28dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/flame_r"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingRight="4dp"
-                android:paddingBottom="4dp"
-                android:text="成人向け"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/bookName"
-                app:layout_constraintTop_toBottomOf="@+id/bookName" />
+                <TextView
+                    android:id="@+id/textR-18Icon"
+                    android:layout_width="86dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/flame_r"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="成人向け"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/bookName"
+                    app:layout_constraintTop_toBottomOf="@+id/bookName" />
 
-            <TextView
-                android:id="@+id/textGrotesqueIcon"
-                android:layout_width="106dp"
-                android:layout_height="28dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/flame_grotesque"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingRight="4dp"
-                android:paddingBottom="4dp"
-                android:text="グロテスク"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/bookName"
-                app:layout_constraintTop_toBottomOf="@+id/bookName" />
+                <TextView
+                    android:id="@+id/textGrotesqueIcon"
+                    android:layout_width="106dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/flame_grotesque"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="グロテスク"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/bookName"
+                    app:layout_constraintTop_toBottomOf="@+id/bookName" />
 
-            <TextView
-                android:id="@+id/textNonIcon"
-                android:layout_width="86dp"
-                android:layout_height="28dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/flame_non"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingRight="4dp"
-                android:paddingBottom="4dp"
-                android:text="未入力"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/bookName"
-                app:layout_constraintTop_toBottomOf="@+id/bookName" />
+                <TextView
+                    android:id="@+id/textNonIcon"
+                    android:layout_width="86dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/flame_non"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="未入力"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/bookName"
+                    app:layout_constraintTop_toBottomOf="@+id/bookName" />
+
 
             <ImageView
                 android:id="@+id/BookView"
-                android:layout_width="384dp"
-                android:layout_height="539dp"
-                android:layout_marginTop="34dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="340dp"
+                android:layout_height="516dp"
+                android:layout_marginTop="36dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/bookName"
                 app:srcCompat="@drawable/test_pk"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-
             <TextView
                 android:id="@+id/textTitle"
-                android:layout_width="360dp"
-                android:layout_height="27dp"
+                android:layout_width="335dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="16dp"
                 android:text="タイトル"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/BookView" />
 
             <View
                 android:id="@+id/view"
-                android:layout_width="370dp"
+                android:layout_width="335dp"
                 android:layout_height="1dp"
                 android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/textTitle" />
 
             <TextView
                 android:id="@+id/textPublisher"
-                android:layout_width="360dp"
+                android:layout_width="337dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="サークル"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view2"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <View
                 android:id="@+id/view2"
-                android:layout_width="370dp"
+                android:layout_width="335dp"
                 android:layout_height="1dp"
                 android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/textPublisher" />
 
             <TextView
                 android:id="@+id/textAuthorName"
-                android:layout_width="360dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="作者"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view3"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
 
-            <View
-                android:id="@+id/view3"
-                android:layout_width="370dp"
-                android:layout_height="1dp"
-                android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textAuthorName" />
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="335dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textAuthorName" />
 
             <TextView
                 android:id="@+id/textIssuedDate"
-                android:layout_width="360dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="発行日"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view4"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view3" />
 
-            <View
-                android:id="@+id/view4"
-                android:layout_width="370dp"
-                android:layout_height="1dp"
-                android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textIssuedDate" />
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="335dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textIssuedDate" />
 
             <TextView
                 android:id="@+id/textRecordDate"
-                android:layout_width="360dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="登録日"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view5"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view4" />
 
-            <View
-                android:id="@+id/view5"
-                android:layout_width="370dp"
-                android:layout_height="1dp"
-                android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textRecordDate" />
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="335dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textRecordDate" />
 
             <TextView
                 android:id="@+id/textBasicGenre"
-                android:layout_width="360dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="ジャンル"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view6"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view5" />
 
-            <View
-                android:id="@+id/view6"
-                android:layout_width="370dp"
-                android:layout_height="1dp"
-                android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textBasicGenre" />
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="335dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textBasicGenre" />
 
             <TextView
                 android:id="@+id/textPage"
-                android:layout_width="360dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="ページ数"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view7"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view6" />
 
-            <View
-                android:id="@+id/view7"
-                android:layout_width="370dp"
-                android:layout_height="1dp"
-                android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textPage" />
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="335dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textPage" />
 
             <TextView
                 android:id="@+id/textRating"
-                android:layout_width="360dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="対象年齢"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/view8"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view7" />
 
-            <View
-                android:id="@+id/view8"
-                android:layout_width="370dp"
-                android:layout_height="1dp"
-                android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textRating" />
+                <View
+                    android:id="@+id/view8"
+                    android:layout_width="335dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textRating" />
 
             <TextView
                 android:id="@+id/textRede"
-                android:layout_width="368dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
                 android:text="作品詳細"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/view8"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/textRating" />
 
             <TextView
                 android:id="@+id/textRede2"
-                android:layout_width="368dp"
+                android:layout_width="335dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="4dp"
                 android:text="未入力"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/textRede"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/textRede" />
 
-            <View
-                android:id="@+id/view0"
-                android:layout_width="370dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="1000dp"
-                android:background="@color/gray1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view8" />
-
+                <View
+                    android:id="@+id/view0"
+                    android:layout_width="335dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@color/gray1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view8" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
