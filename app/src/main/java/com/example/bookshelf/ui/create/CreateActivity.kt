@@ -20,8 +20,10 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.core.graphics.createBitmap
 import com.example.bookshelf.Database.*
 import com.example.bookshelf.ui.gallery.GalleryFragment
+import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 
 class CreateActivity : AppCompatActivity() {
@@ -107,8 +109,13 @@ class CreateActivity : AppCompatActivity() {
                     val dbHelper = BookDBHelper(applicationContext, "Book", null, 1);
                     val database = dbHelper.writableDatabase
 
+                    val byteArrayOutputStream = ByteArrayOutputStream();
+                    bookImage?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                    val image = byteArrayOutputStream.toByteArray()
+
                     val values = ContentValues()
                     //("カラム名", 値)
+                    values.put("image",image)
                     values.put("title", editTitle.text.toString())
                     values.put("authorName", editAuthorName.text.toString())
                     values.put("publisher", editPublisher.text.toString())
