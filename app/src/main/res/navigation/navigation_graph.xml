@@ -1,0 +1,21 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/navi_smile">
+
+    <fragment android:id="@+id/navi_smile"
+        android:name="com.example.bookshelf.ui.home.HomeFragment"
+        android:label="Fragment1"/>
+
+    <fragment android:id="@+id/navi_pets"
+        android:name="com.example.bookshelf.ui.home.HomeFragment"
+        android:label="Fragment2"/>
+
+    <fragment android:id="@+id/navi_sun"
+        android:name="com.example.bookshelf.ui.home.HomeFragment"
+        android:label="Fragment3"/>
+
+    <fragment android:id="@+id/navi_flight"
+        android:name="com.example.bookshelf.ui.home.HomeFragment"
+        android:label="Fragment4"/>
+</navigation>
