@@ -20,13 +20,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookshelf.ui.gallery.GalleryFragment
+import com.example.bookshelf.ui.home.HomeFragment
+import com.example.bookshelf.ui.slideshow.SlideshowFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_slideshow.*
 import java.util.*
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+
+
 
     companion object {
         //選択した本のナンバー
@@ -73,11 +83,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         //左側のナビゲーション
@@ -185,6 +190,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 
 
 }
