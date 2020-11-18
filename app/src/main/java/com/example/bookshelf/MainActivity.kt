@@ -18,13 +18,26 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookshelf.ui.gallery.GalleryFragment
+import com.example.bookshelf.ui.home.HomeFragment
+import com.example.bookshelf.ui.slideshow.SlideshowFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_info.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_slideshow.*
 import java.util.*
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+
+
 
     companion object {
         //選択した本のナンバー
@@ -68,23 +81,35 @@ class MainActivity : AppCompatActivity() {
 
         maxNo = 2
 
+        //↓↓↓↓データベース出来たら消す↓↓↓↓
+        selectNo = 1
+        bookTitle  [selectNo] = "モゲます 総集編"
+        publisher  [selectNo] = "もげもげ"
+        authorName [selectNo] = "まげ"
+        issuedDate [selectNo] = "2020/10/04"
+        recordDate [selectNo] = "2020/11/04"
+        basicGenre [selectNo] = "アイドルマスター"
+        page       [selectNo] = 20
+        rating     [selectNo] = 1
+        //↑↑↑↑データベース出来たら消す↑↑↑↑
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        //左側のナビゲーション
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        //setupWithNavController(bottom_navigation, navController)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -178,6 +203,30 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    //下部のナビゲーションドロワーの表示、非表示
+    private fun setupNav() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            .setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                //ナビゲーションドロワーを表示
+                R.id.nav_home -> showBottomNav()
+                //ナビゲーションドロワーを非表示
+                else -> hideBottomNav()
+            }
+        }
+    }
+    private fun showBottomNav() {
+        bottom_navigation.visibility = View.VISIBLE
+    }
+    private fun hideBottomNav() {
+        bottom_navigation.visibility = View.GONE
+    }
+
+
 
 
 }

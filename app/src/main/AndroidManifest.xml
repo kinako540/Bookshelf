@@ -3,10 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.bookshelf">
 
-    <uses-sdk
-        tools:overrideLibrary="
-        androidx.camera.camera2, androidx.camera.core,
-        androidx.camera.view, androidx.camera.lifecycle"/>
+    <uses-sdk tools:overrideLibrary="         androidx.camera.camera2, androidx.camera.core,         androidx.camera.view, androidx.camera.lifecycle" />
 
     <application
         android:name=".BookDate"
@@ -16,27 +13,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.home.HomeActivity"></activity>
         <activity
             android:name=".ui.create.CreateActivity"
             android:label="CreateActivity"
-            android:theme="@style/AppTheme.YesActionBar">
-        </activity>
+            android:theme="@style/AppTheme.YesActionBar"></activity>
         <activity
-            android:parentActivityName=".MainActivity"
             android:name=".ui.info.InfoActivity"
             android:label="InfoActivity"
-            android:theme="@style/AppTheme.YesActionBar">
-        </activity>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.YesActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
