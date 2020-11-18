@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
                     Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT).show()
                     if(position == 0){
                         Toast.makeText(requireContext(), "こんにちは", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(requireContext(), HomeActivity::class.java)
+                        val intent = Intent(requireContext(), InfoActivity::class.java)
                         startActivity(intent)
                     }
                     else{

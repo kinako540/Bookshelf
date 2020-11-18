@@ -24,6 +24,7 @@ import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.home.HomeFragment
 import com.example.bookshelf.ui.slideshow.SlideshowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -79,6 +80,18 @@ class MainActivity : AppCompatActivity() {
         load()
 
         maxNo = 2
+
+        //↓↓↓↓データベース出来たら消す↓↓↓↓
+        selectNo = 1
+        bookTitle  [selectNo] = "モゲます 総集編"
+        publisher  [selectNo] = "もげもげ"
+        authorName [selectNo] = "まげ"
+        issuedDate [selectNo] = "2020/10/04"
+        recordDate [selectNo] = "2020/11/04"
+        basicGenre [selectNo] = "アイドルマスター"
+        page       [selectNo] = 20
+        rating     [selectNo] = 1
+        //↑↑↑↑データベース出来たら消す↑↑↑↑
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -189,6 +202,28 @@ class MainActivity : AppCompatActivity() {
             println("PUBLISHER:" + publisher[loadNo])
         }
 
+    }
+
+    //下部のナビゲーションドロワーの表示、非表示
+    private fun setupNav() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            .setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                //ナビゲーションドロワーを表示
+                R.id.nav_home -> showBottomNav()
+                //ナビゲーションドロワーを非表示
+                else -> hideBottomNav()
+            }
+        }
+    }
+    private fun showBottomNav() {
+        bottom_navigation.visibility = View.VISIBLE
+    }
+    private fun hideBottomNav() {
+        bottom_navigation.visibility = View.GONE
     }
 
 
