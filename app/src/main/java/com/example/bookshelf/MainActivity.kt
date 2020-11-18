@@ -1,6 +1,7 @@
 package com.example.bookshelf
 
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.telephony.cdma.CdmaCellLocation
 import android.view.Menu
@@ -19,8 +20,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookshelf.Database.BookDBHelper
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
+import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +57,38 @@ class MainActivity : AppCompatActivity() {
         var getLocation     : Array<String?> = arrayOfNulls(10000)
         var saveDate        : Array<Boolean> = Array(10000){false}
         var maxNo:Int = 0
+    }
+
+    private var arrayListId: ArrayList<String> = arrayListOf()
+    private var arrayListName: ArrayList<String> = arrayListOf()
+    private var arrayListType: ArrayList<Int> = arrayListOf()
+    private var arrayListBitmap: ArrayList<Bitmap> = arrayListOf()
+
+    private fun selectData() {
+        try {
+            arrayListId.clear();arrayListName.clear();arrayListType.clear();arrayListBitmap.clear()
+
+            val dbHelper = BookDBHelper(applicationContext, "Book", null, 1)
+            val database = dbHelper.readableDatabase
+
+            val sql = "select image,title,authorName,publisher,issuedDate,recordDate,page,basicGenre,copyright,rating,describe,possession,price,storageLocation,saveDate from Book"
+
+            val cursor = database.rawQuery(sql, null)
+            if (cursor.count > 0) {
+                cursor.moveToFirst()
+                while (!cursor.isAfterLast) {
+                    arrayListId.add(cursor.getString(0))
+                    arrayListName.add(cursor.getString(1))
+                    arrayListType.add(cursor.getInt(2))
+                    val blob: ByteArray = cursor.getBlob(3)
+                    val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
+                    arrayListBitmap.add(bitmap)
+                    cursor.moveToNext()
+                }
+            }
+        }catch(exception: Exception) {
+            Log.e("selectData", exception.toString());
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
