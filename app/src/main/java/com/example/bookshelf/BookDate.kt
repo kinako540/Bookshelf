@@ -29,6 +29,7 @@ public class BookDate : Application(){
         var price: Array<Int?> = arrayOfNulls(10000)
         var storageLocation: Array<String?> = arrayOfNulls(10000)
         var getLocation: Array<String?> = arrayOfNulls(10000)
+        var barcode: Array<String?> = arrayOfNulls(10)
     }
 
 

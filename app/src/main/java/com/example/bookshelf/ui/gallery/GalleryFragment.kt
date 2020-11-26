@@ -17,6 +17,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.bookshelf.BookDate
 import com.example.bookshelf.R
 import com.example.bookshelf.mlkit.BitmapUtils
 import com.example.bookshelf.mlkit.GraphicOverlay
@@ -32,7 +33,6 @@ class GalleryFragment : Fragment() {
 
     private lateinit var GalleryFragment: GalleryViewModel
 
-    private var preview: ImageView? = null
     private var graphicOverlay: GraphicOverlay? = null
     private var isLandScape = false
     private var imageUri: Uri? = null
@@ -67,26 +67,29 @@ class GalleryFragment : Fragment() {
 
         val barcodeButton: Button = view.findViewById(R.id.button4)
         barcodeButton.setOnClickListener { view: View ->
-            // Menu for selecting either: a) take new photo b) select from existing
-            val popup =
-                PopupMenu(activity, view)
-            popup.setOnMenuItemClickListener { menuItem: MenuItem ->
-                val itemId =
-                    menuItem.itemId
-                if (itemId == R.id.select_images_from_local) {
-                    startChooseImageIntentForResult()
-                    return@setOnMenuItemClickListener true
-                } else if (itemId == R.id.take_photo_using_camera) {
-                    startCameraIntentForResult()
-                    return@setOnMenuItemClickListener true
+            if(BookDate.barcode[0] != null){
+                createImageProcessor()
+            }else{
+                // Menu for selecting either: a) take new photo b) select from existing
+                val popup =
+                    PopupMenu(activity, view)
+                popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+                    val itemId =
+                        menuItem.itemId
+                    if (itemId == R.id.select_images_from_local) {
+                        startChooseImageIntentForResult()
+                        return@setOnMenuItemClickListener true
+                    } else if (itemId == R.id.take_photo_using_camera) {
+                        startCameraIntentForResult()
+                        return@setOnMenuItemClickListener true
+                    }
+                    false
                 }
-                false
+                val inflater = popup.menuInflater
+                inflater.inflate(R.menu.camera_button_menu, popup.menu)
+                popup.show()
             }
-            val inflater = popup.menuInflater
-            inflater.inflate(R.menu.camera_button_menu, popup.menu)
-            popup.show()
         }
-        preview = view.findViewById(R.id.preview)
         graphicOverlay = view.findViewById(R.id.graphic_overlay)
 
         isLandScape =
@@ -235,7 +238,6 @@ class GalleryFragment : Fragment() {
                 (imageBitmap.height / scaleFactor).toInt(),
                 true
             )
-            preview!!.setImageBitmap(resizedBitmap)
             if (imageProcessor != null) {
                 graphicOverlay!!.setImageSourceInfo(
                     resizedBitmap.width, resizedBitmap.height, /* isFlipped= */false
@@ -281,6 +283,10 @@ class GalleryFragment : Fragment() {
     private fun createImageProcessor() {
         try {
             imageProcessor = activity?.applicationContext?.let { BarcodeScannerProcessor(it) }
+            if (BookDate.barcode[0] != null){
+                val intent = Intent(requireContext(), CreateActivity::class.java)
+                startActivity(intent)
+            }
         } catch (e: Exception) {
             Log.e(
                 TAG,
