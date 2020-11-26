@@ -5,7 +5,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.GalleryFragment">
+    tools:context=".ui.gallery.GalleryFragment"
+    android:background="#F4F4F4">
 
     <com.example.bookshelf.mlkit.GraphicOverlay
         android:id="@+id/graphic_overlay"

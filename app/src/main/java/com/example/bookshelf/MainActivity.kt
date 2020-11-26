@@ -6,6 +6,7 @@ import android.telephony.cdma.CdmaCellLocation
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -20,8 +21,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookshelf.R.id.fab
 import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.home.HomeFragment
+import com.example.bookshelf.ui.info.main.TextFragment
+import com.example.bookshelf.ui.info.main.TopFragment
 import com.example.bookshelf.ui.slideshow.SlideshowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_info.*
@@ -35,9 +39,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-
-
 
     companion object {
         //選択した本のナンバー
@@ -109,6 +110,28 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         //setupWithNavController(bottom_navigation, navController)
+
+        val bnv = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bnv.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId){
+                R.id.nav_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment, HomeFragment())
+                        .commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_gallery   -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment, GalleryFragment())
+                        .commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_slideshow -> {}
+                R.id.nav_setting   -> {}
+            }
+            return@setOnNavigationItemSelectedListener false
+        }
+
 
     }
 
@@ -220,10 +243,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun showBottomNav() {
-        bottom_navigation.visibility = View.VISIBLE
+        //bottom_navigation.visibility = View.VISIBLE
     }
     private fun hideBottomNav() {
-        bottom_navigation.visibility = View.GONE
+        //bottom_navigation.visibility = View.GONE
     }
 
 
