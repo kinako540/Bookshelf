@@ -20,8 +20,13 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import com.example.bookshelf.BookDate
 import com.example.bookshelf.Database.*
 import com.example.bookshelf.ui.gallery.GalleryFragment
+import okhttp3.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 import java.time.LocalDate
 
 class CreateActivity : AppCompatActivity() {
@@ -40,10 +45,92 @@ class CreateActivity : AppCompatActivity() {
     //画像
     var bookImage: Bitmap? = null
 
+    //バーコード
+    private var okHttpClient: OkHttpClient? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //バーコード
+        if (BookDate.barcode[0] != null){
+            // OkHttp通信クライアントをインスタンス化
+            okHttpClient = OkHttpClient()
+            // 通信するための情報
+            // MainActivityで入力された文字列で検索する様修正
+            val request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:${BookDate.barcode[0]}").build()
+            // データの取得後の命令を実装
+            val callBack: Callback = object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    // 失敗した時の命令
+                    // 通信に失敗した原因をログに出力
+                    Log.e("failure API Response", e.localizedMessage)
+                }
+
+                @Throws(IOException::class)
+                override fun onResponse(call: Call, response: Response) {
+                    // 成功した時の命令
+                    // Google Books APIから取得したデータをログに出力
+                    // Jsonのパースが失敗してアプリの強制終了を回避する機能
+                    try {
+                        // JsonデータをJSONObjectに変換
+                        val rootJson = JSONObject(response.body()!!.string())
+                        // Jsonデータから蔵書リストデータ"items"を取得
+                        val items = rootJson.getJSONArray("items")
+                        Log.d("Success API Response", "APIから取得したデータの件数:" +
+                                items.length())
+                        // Jsonのパースエラーが発生した時に備えてtry~catchする
+                        try {
+                            // 蔵書リストの件数分繰り返しタイトルをログ出力する
+                            for (i in 0 until items.length()) {
+                                // 蔵書リストから i番目のデータを取得
+                                val item = items.getJSONObject(i)
+                                // 蔵書のi番目データから蔵書情報のグループを取得
+                                val volumeInfo = item.getJSONObject("volumeInfo")
+                                //val imageLinks = volumeInfo.getJSONObject("imageLinks")
+                                // タイトルデータをリストに追加
+                                if (volumeInfo.has("title")) {
+                                    val barcodeTitle = volumeInfo.getString("title")
+                                    editTitle.setText(barcodeTitle,TextView.BufferType.NORMAL)
+                                    BookDate.barcode[0] = null
+                                    Log.d("check", "barcodeTitleAnother："+ barcodeTitle)
+                                }
+                                if (volumeInfo.has("authors")) {
+                                    val barcodeAuthors = volumeInfo.getString("authors")
+                                    editAuthorName.setText(barcodeAuthors,TextView.BufferType.NORMAL)
+                                }
+                                //if (imageLinks.has("thumbnail")) {
+
+                                //}
+                                if (volumeInfo.has("pageCount")) {
+                                    val barcodePageCount = volumeInfo.getInt("pageCount")
+                                    editPage.setText(barcodePageCount.toString(),TextView.BufferType.NORMAL)
+                                }
+                                if (volumeInfo.has("publishedDate")) {
+                                    val barcodePublishedDate = volumeInfo.getString("publishedDate")
+                                    editIssuedDate.setText(barcodePublishedDate,TextView.BufferType.NORMAL)
+                                }
+                                if (volumeInfo.has("printType")) {
+                                    val barcodePrintType = volumeInfo.getString("printType")
+                                    editGenre.setText(barcodePrintType,TextView.BufferType.NORMAL)
+                                }
+                                //if (volumeInfo.has("categories")) {
+                                //barcodeCategoriesList.add(volumeInfo.getString("categories"))
+                                //}
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } catch (e: JSONException) {
+                        // Jsonパースの時にエラーが発生したらログに出力する
+                        e.printStackTrace()
+                    }
+                }
+            }
+            // 非同期処理でREST API通信を実行
+            okHttpClient!!.newCall(request).enqueue(callBack)
+        }
 
         //イメージボタン
         var img = findViewById<ImageButton>(R.id.imageButton)
