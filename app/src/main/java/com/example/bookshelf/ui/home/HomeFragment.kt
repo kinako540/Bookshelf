@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.ToggleButton
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +18,9 @@ import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
 import com.example.bookshelf.ui.create.CreateActivity
 import com.example.bookshelf.ui.info.InfoActivity
+import kotlinx.android.synthetic.main.activity_create.*
+import kotlinx.android.synthetic.main.activity_info.*
+import kotlinx.android.synthetic.main.fragment_create_top.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -23,8 +28,32 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     var list = Array<String>(10) {"テキスト$it"}
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        hideBottomNav()
+
+        var selectBtn = false
+        fab.setOnClickListener {
+            if(selectBtn) {
+                hideBottomNav()
+                selectBtn = false
+            }
+            else{
+                showBottomNav()
+                selectBtn = true
+            }
+        }
+        fab2.setOnClickListener {
+            val intent = Intent(requireContext(), CreateActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
         if(MainActivity.selectViewType == 0){
             // 表示するテキスト配列を作る [テキスト１, テキスト２, ....]
@@ -70,10 +99,6 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-
-
-
-
     }
 
     override fun onCreateView(
@@ -81,11 +106,23 @@ class HomeFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-        })
+        val view: ToggleButton = root.findViewById(R.id.fab)
+        view.setOnCheckedChangeListener{_,a->
+            if(a) {
+                view.background = getDrawable(requireContext(), R.drawable.button_pressed)
+            }
+            else{
+                view.background = getDrawable(requireContext(), R.drawable.button_default)
+            }
+        }
         return root
+    }
+
+    private fun showBottomNav() {
+        fab2.visibility = View.VISIBLE
+    }
+    private fun hideBottomNav() {
+        fab2.visibility = View.GONE
     }
 }

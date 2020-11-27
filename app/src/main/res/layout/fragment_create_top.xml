@@ -5,28 +5,19 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.GalleryFragment">
-
-    <ImageView
-        android:id="@+id/preview"
-        android:layout_width="0dp"
-        android:layout_height="270dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.011" />
+    tools:context=".ui.gallery.GalleryFragment"
+    android:background="#F4F4F4">
 
     <com.example.bookshelf.mlkit.GraphicOverlay
         android:id="@+id/graphic_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="@id/preview"
-        app:layout_constraintRight_toRightOf="@id/preview"
-        app:layout_constraintTop_toTopOf="@id/preview"
-        app:layout_constraintBottom_toBottomOf="@id/preview"/>
+        app:layout_constraintBottom_toBottomOf="@id/root"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@id/root"
+        app:layout_constraintRight_toRightOf="@id/root"
+        app:layout_constraintTop_toTopOf="@id/root"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_self"
@@ -51,11 +42,11 @@
         app:layout_constraintTop_toBottomOf="@+id/button_self" />
 
     <include
-        layout="@layout/settings_style"
         android:id="@+id/settings_button"
+        layout="@layout/settings_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="@id/root"
-        app:layout_constraintTop_toTopOf="@id/root"/>
+        app:layout_constraintTop_toTopOf="@id/root" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

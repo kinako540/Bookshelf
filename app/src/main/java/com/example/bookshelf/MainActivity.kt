@@ -1,12 +1,12 @@
 package com.example.bookshelf
 
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.telephony.cdma.CdmaCellLocation
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -19,15 +19,23 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bookshelf.Database.BookDBHelper
+import com.example.bookshelf.R.id.fab
+import com.example.bookshelf.ui.gallery.GalleryFragment
+import com.example.bookshelf.ui.home.HomeFragment
+import com.example.bookshelf.ui.info.main.TextFragment
+import com.example.bookshelf.ui.info.main.TopFragment
+import com.example.bookshelf.ui.slideshow.SlideshowFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_info.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_slideshow.*
 import java.util.*
-import android.database.sqlite.SQLiteOpenHelper
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -59,38 +67,6 @@ class MainActivity : AppCompatActivity() {
         var maxNo:Int = 0
     }
 
-    private var arrayListId: ArrayList<String> = arrayListOf()
-    private var arrayListName: ArrayList<String> = arrayListOf()
-    private var arrayListType: ArrayList<Int> = arrayListOf()
-    private var arrayListBitmap: ArrayList<Bitmap> = arrayListOf()
-
-    private fun selectData() {
-        try {
-            arrayListId.clear();arrayListName.clear();arrayListType.clear();arrayListBitmap.clear()
-
-            val dbHelper = BookDBHelper(applicationContext, "Book", null, 1)
-            val database = dbHelper.readableDatabase
-
-            val sql = "select image,title,authorName,publisher,issuedDate,recordDate,page,basicGenre,copyright,rating,describe,possession,price,storageLocation,saveDate from Book"
-
-            val cursor = database.rawQuery(sql, null)
-            if (cursor.count > 0) {
-                cursor.moveToFirst()
-                while (!cursor.isAfterLast) {
-                    arrayListId.add(cursor.getString(0))
-                    arrayListName.add(cursor.getString(1))
-                    arrayListType.add(cursor.getInt(2))
-                    val blob: ByteArray = cursor.getBlob(3)
-                    val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
-                    arrayListBitmap.add(bitmap)
-                    cursor.moveToNext()
-                }
-            }
-        }catch(exception: Exception) {
-            Log.e("selectData", exception.toString());
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -106,23 +82,57 @@ class MainActivity : AppCompatActivity() {
 
         maxNo = 2
 
+        //↓↓↓↓データベース出来たら消す↓↓↓↓
+        selectNo = 1
+        bookTitle  [selectNo] = "モゲます 総集編"
+        publisher  [selectNo] = "もげもげ"
+        authorName [selectNo] = "まげ"
+        issuedDate [selectNo] = "2020/10/04"
+        recordDate [selectNo] = "2020/11/04"
+        basicGenre [selectNo] = "アイドルマスター"
+        page       [selectNo] = 20
+        rating     [selectNo] = 1
+        //↑↑↑↑データベース出来たら消す↑↑↑↑
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        //左側のナビゲーション
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        //setupWithNavController(bottom_navigation, navController)
+
+        val bnv = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bnv.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId){
+                R.id.nav_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment, HomeFragment())
+                        .commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_gallery   -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment, GalleryFragment())
+                        .commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_slideshow -> {}
+                R.id.nav_setting   -> {}
+            }
+            return@setOnNavigationItemSelectedListener false
+        }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -216,6 +226,30 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    //下部のナビゲーションドロワーの表示、非表示
+    private fun setupNav() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            .setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                //ナビゲーションドロワーを表示
+                R.id.nav_home -> showBottomNav()
+                //ナビゲーションドロワーを非表示
+                else -> hideBottomNav()
+            }
+        }
+    }
+    private fun showBottomNav() {
+        //bottom_navigation.visibility = View.VISIBLE
+    }
+    private fun hideBottomNav() {
+        //bottom_navigation.visibility = View.GONE
+    }
+
+
 
 
 }
