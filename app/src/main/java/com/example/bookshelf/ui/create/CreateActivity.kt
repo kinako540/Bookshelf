@@ -19,6 +19,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import com.example.bookshelf.BookDate
 import com.example.bookshelf.Database.*
@@ -100,9 +101,13 @@ class CreateActivity : AppCompatActivity() {
                                     val barcodeAuthors = volumeInfo.getString("authors")
                                     editAuthorName.setText(barcodeAuthors,TextView.BufferType.NORMAL)
                                 }
-                                //if (imageLinks.has("thumbnail")) {
-
-                                //}
+                                /*if (imageLinks.has("thumbnail")) {
+                                    val barcodeImage = imageLinks.getString("thumbnail")
+                                    val imageBytes = Base64.decode(barcodeImage, 0)
+                                    bookImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                                    val img = findViewById<ImageView>(R.id.imageButton)
+                                    img.setImageBitmap(bookImage)
+                                }*/
                                 if (volumeInfo.has("pageCount")) {
                                     val barcodePageCount = volumeInfo.getInt("pageCount")
                                     editPage.setText(barcodePageCount.toString(),TextView.BufferType.NORMAL)

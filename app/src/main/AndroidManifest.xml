@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.bookshelf">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-sdk tools:overrideLibrary="         androidx.camera.camera2, androidx.camera.core,         androidx.camera.view, androidx.camera.lifecycle" />
 
     <application
