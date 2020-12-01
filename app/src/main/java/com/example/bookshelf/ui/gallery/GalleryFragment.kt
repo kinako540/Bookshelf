@@ -65,29 +65,12 @@ class GalleryFragment : Fragment() {
             startActivity(intent)
         }
 
-        val barcodeButton: Button = view.findViewById(R.id.button4)
+        val barcodeButton: Button = view.findViewById(R.id.button_barcode)
         barcodeButton.setOnClickListener { view: View ->
             if(BookDate.barcode[0] != null){
                 createImageProcessor()
             }else{
-                // Menu for selecting either: a) take new photo b) select from existing
-                val popup =
-                    PopupMenu(activity, view)
-                popup.setOnMenuItemClickListener { menuItem: MenuItem ->
-                    val itemId =
-                        menuItem.itemId
-                    if (itemId == R.id.select_images_from_local) {
-                        startChooseImageIntentForResult()
-                        return@setOnMenuItemClickListener true
-                    } else if (itemId == R.id.take_photo_using_camera) {
-                        startCameraIntentForResult()
-                        return@setOnMenuItemClickListener true
-                    }
-                    false
-                }
-                val inflater = popup.menuInflater
-                inflater.inflate(R.menu.camera_button_menu, popup.menu)
-                popup.show()
+                barcodePopup()
             }
         }
         graphicOverlay = view.findViewById(R.id.graphic_overlay)
@@ -158,6 +141,27 @@ class GalleryFragment : Fragment() {
             KEY_SELECTED_SIZE,
             selectedSize
         )
+    }
+
+    private fun barcodePopup() {
+        // Menu for selecting either: a) take new photo b) select from existing
+        val popup =
+            PopupMenu(activity, view)
+        popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+            val itemId =
+                menuItem.itemId
+            if (itemId == R.id.select_images_from_local) {
+                startChooseImageIntentForResult()
+                return@setOnMenuItemClickListener true
+            } else if (itemId == R.id.take_photo_using_camera) {
+                startCameraIntentForResult()
+                return@setOnMenuItemClickListener true
+            }
+            false
+        }
+        val inflater = popup.menuInflater
+        inflater.inflate(R.menu.camera_button_menu, popup.menu)
+        popup.show()
     }
 
     private fun startCameraIntentForResult() { // Clean up last time's image
