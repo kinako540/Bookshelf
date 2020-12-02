@@ -2,8 +2,14 @@ package com.example.bookshelf
 
 import android.content.Context
 import android.os.Bundle
+import android.telephony.cdma.CdmaCellLocation
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,8 +19,14 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookshelf.R.id.fab
 import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.home.HomeFragment
+import com.example.bookshelf.ui.info.main.TextFragment
+import com.example.bookshelf.ui.info.main.TopFragment
+import com.example.bookshelf.ui.slideshow.SlideshowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_main.*
