@@ -143,7 +143,7 @@ class GalleryFragment : Fragment() {
         )
     }
 
-    private fun barcodePopup() {
+    fun barcodePopup() {
         // Menu for selecting either: a) take new photo b) select from existing
         val popup =
             PopupMenu(activity, view)
@@ -307,6 +307,10 @@ class GalleryFragment : Fragment() {
     }
 
     companion object {
+        fun barcodePopup() {
+            TODO("Not yet implemented")
+        }
+
         private const val TAG = "StillImageActivity"
         private const val OBJECT_DETECTION = "Object Detection"
         private const val OBJECT_DETECTION_CUSTOM = "Custom Object Detection (Birds)"
