@@ -14,6 +14,7 @@
         android:layout_height="171dp"
         app:layout_constraintBottom_toTopOf="@+id/button_self"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/graphic_overlay"
         tools:src="@tools:sample/backgrounds/scenic" />

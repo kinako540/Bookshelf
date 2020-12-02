@@ -1,10 +1,12 @@
 package com.example.bookshelf.ui.gallery
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.icu.text.DateTimePatternGenerator.PatternInfo.OK
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,9 +25,9 @@ import com.example.bookshelf.R
 import com.example.bookshelf.mlkit.BitmapUtils
 import com.example.bookshelf.mlkit.GraphicOverlay
 import com.example.bookshelf.mlkit.VisionImageProcessor
-import com.example.bookshelf.ui.create.CreateActivity
 import com.example.bookshelf.mlkit.barcodescanner.BarcodeScannerProcessor
 import com.example.bookshelf.mlkit.preference.SettingsActivity
+import com.example.bookshelf.ui.create.CreateActivity
 import java.io.IOException
 import kotlin.math.max
 
@@ -35,6 +37,7 @@ class GalleryFragment : Fragment() {
     private lateinit var GalleryFragment: GalleryViewModel
 
     private var graphicOverlay: GraphicOverlay? = null
+    private var barcodeButton: Button? = null
     private var isLandScape = false
     private var imageUri: Uri? = null
     private var selectedSize: String? = SIZE_SCREEN
@@ -76,8 +79,8 @@ class GalleryFragment : Fragment() {
             startActivity(intent)
         }
 
-        val barcodeButton: Button = view.findViewById(R.id.button_barcode)
-        barcodeButton.setOnClickListener { view: View ->
+        barcodeButton = view.findViewById(R.id.button_barcode)
+        barcodeButton?.setOnClickListener { view: View ->
             if(BookDate.barcode[0] != null){
                 createImageProcessor()
             }else{
@@ -144,14 +147,14 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
         createImageProcessor()
         tryReloadAndDetectInImage()
     }
 
-    public override fun onSaveInstanceState(outState: Bundle) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(
             KEY_IMAGE_URI,
@@ -178,7 +181,10 @@ class GalleryFragment : Fragment() {
             val values = ContentValues()
             values.put(MediaStore.Images.Media.TITLE, "New Picture")
             values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
-            imageUri = activity?.contentResolver?.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            imageUri = activity?.contentResolver?.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                values
+            )
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
             startActivityForResult(
                 takePictureIntent,
@@ -227,6 +233,8 @@ class GalleryFragment : Fragment() {
                 // UI layout has not finished yet, will reload once it's ready.
                 return
             }
+
+            barcodeButton?.text = "読み込んだ画像で登録する"
 
             val imageBitmap = BitmapUtils.getBitmapFromContentUri(
                 activity?.contentResolver,
@@ -295,9 +303,11 @@ class GalleryFragment : Fragment() {
         try {
             imageProcessor = activity?.applicationContext?.let { BarcodeScannerProcessor(it) }
             if (BookDate.barcode[0] != null){
+                barcodeButton?.text = "バーコードで登録"
                 val intent = Intent(requireContext(), CreateActivity::class.java)
                 startActivity(intent)
             }
+
         } catch (e: Exception) {
             Log.e(
                 TAG,
@@ -314,9 +324,6 @@ class GalleryFragment : Fragment() {
     }
 
     companion object {
-        fun barcodePopup() {
-            TODO("Not yet implemented")
-        }
 
         private const val TAG = "StillImageActivity"
         private const val OBJECT_DETECTION = "Object Detection"
