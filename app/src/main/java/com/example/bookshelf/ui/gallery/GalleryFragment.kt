@@ -266,6 +266,7 @@ class GalleryFragment : Fragment() {
             )
             imageUri = null
         }
+        imageUri = null
     }
 
     private val targetedWidthHeight: Pair<Int, Int>

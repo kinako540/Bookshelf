@@ -75,6 +75,7 @@ class CreateActivity : AppCompatActivity() {
                     // Google Books APIから取得したデータをログに出力
                     // Jsonのパースが失敗してアプリの強制終了を回避する機能
                     try {
+                        BookDate.barcode[0] = null
                         // JsonデータをJSONObjectに変換
                         val rootJson = JSONObject(response.body()!!.string())
                         // Jsonデータから蔵書リストデータ"items"を取得
@@ -94,8 +95,6 @@ class CreateActivity : AppCompatActivity() {
                                 if (volumeInfo.has("title")) {
                                     val barcodeTitle = volumeInfo.getString("title")
                                     editTitle.setText(barcodeTitle,TextView.BufferType.NORMAL)
-                                    BookDate.barcode[0] = null
-                                    Log.d("check", "barcodeTitleAnother："+ barcodeTitle)
                                 }
                                 if (volumeInfo.has("authors")) {
                                     val barcodeAuthors = volumeInfo.getString("authors")
