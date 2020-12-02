@@ -1,8 +1,10 @@
 package com.example.bookshelf
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.telephony.cdma.CdmaCellLocation
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookshelf.Database.BookDBHelper
 import com.example.bookshelf.R.id.fab
 import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.home.HomeFragment
@@ -28,12 +31,14 @@ import com.example.bookshelf.ui.info.main.TextFragment
 import com.example.bookshelf.ui.info.main.TopFragment
 import com.example.bookshelf.ui.slideshow.SlideshowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.common.base.Converter
 import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_slideshow.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -54,16 +59,16 @@ class MainActivity : AppCompatActivity() {
         var recordDate      : Array<String?> = arrayOfNulls(10000)
         var page            : Array<Int?>    = arrayOfNulls(10000)
         var basicGenre      : Array<String?> = arrayOfNulls(10000)
-        var copyright       : Array<Boolean> = Array(10000){false}
+        var copyright       : Array<Int?>    = arrayOfNulls(10000)
         var rating          : Array<Int?>    = arrayOfNulls(10000)
-        var favorite        : Array<Boolean> = Array(10000){false}
+        var favorite        : Array<Int?>    = arrayOfNulls(10000)
         var userTag                          = Array(10000) {arrayOfNulls<String>(10)}
         var describe        : Array<String?> = arrayOfNulls(10000)
         var possession      : Array<Int?>    = arrayOfNulls(10000)
         var price           : Array<Int?>    = arrayOfNulls(10000)
         var storageLocation : Array<String?> = arrayOfNulls(10000)
         var getLocation     : Array<String?> = arrayOfNulls(10000)
-        var saveDate        : Array<Boolean> = Array(10000){false}
+        var saveDate        : Array<Int?>    = arrayOfNulls(10000)
         var maxNo:Int = 0
     }
 
@@ -208,9 +213,9 @@ class MainActivity : AppCompatActivity() {
             recordDate[loadNo] = data.getString ("RECORD_DATE",null)
             page      [loadNo] = data.getInt    ("PAGE"       ,0)
             basicGenre[loadNo] = data.getString ("RECORD_DATE",null)
-            copyright [loadNo] = data.getBoolean("COPYRIGHT"  ,false)
+            copyright [loadNo] = data.getInt("COPYRIGHT"  ,0)
             rating    [loadNo] = data.getInt    ("PAGE"       ,0)
-            favorite  [loadNo] = data.getBoolean("COPYRIGHT"  ,false)
+            favorite  [loadNo] = data.getInt("COPYRIGHT"  ,0)
             for(i in 0..9){
                 userTag[loadNo][i]  = data.getString ("USER_TAG"        ,null)
             }
@@ -219,7 +224,7 @@ class MainActivity : AppCompatActivity() {
             price          [loadNo] = data.getInt    ("PRICE"        ,0)
             storageLocation[loadNo] = data.getString ("STORAGE_LOCATION",null)
             getLocation    [loadNo] = data.getString ("GET_LOCATION"    ,null)
-            saveDate       [loadNo] = data.getBoolean("SAVE_DATE"       ,false)
+            saveDate       [loadNo] = data.getInt("SAVE_DATE"       ,0)
             println("TITLE:" + bookTitle[loadNo])
             println("AUTHOR_NAME:" + authorName[loadNo])
             println("PUBLISHER:" + publisher[loadNo])
@@ -249,6 +254,41 @@ class MainActivity : AppCompatActivity() {
         //bottom_navigation.visibility = View.GONE
     }
 
+    private fun selectData(){
+        try {
+
+            val dbHelper = BookDBHelper(applicationContext, "Book", null, 1)
+            val database = dbHelper.readableDatabase
+
+            val sql = "select * from Book order by id"
+
+            val cursor = database.rawQuery(sql, null)
+            if (cursor.count > 0) {
+                cursor.moveToFirst()
+                while (!cursor.isAfterLast) {
+                    bookTitle   += (cursor.getString(2))
+                    authorName  += (cursor.getString(3))
+                    publisher   += (cursor.getString(4))
+                    issuedDate  += (cursor.getString(5))
+                    recordDate  += (cursor.getString(6))
+                    page        += (cursor.getInt(7))
+                    basicGenre  += (cursor.getString(8))
+                    //copyright += (cursor.getInt(9))
+                    rating += (cursor.getInt(10))
+                    //favorite += (cursor.getString(11))
+                    describe += (cursor.getString(12))
+                    possession += (cursor.getInt(13))
+                    price += (cursor.getInt(14))
+                    storageLocation +=(cursor.getString(15))
+                    //saveDate += (cursor.getString(16))
+
+                    cursor.moveToNext()
+                }
+            }
+        }catch(exception: Exception) {
+            Log.e("selectData", exception.toString());
+        }
+    }
 
 
 
