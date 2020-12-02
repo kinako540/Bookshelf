@@ -70,7 +70,24 @@ class GalleryFragment : Fragment() {
             if(BookDate.barcode[0] != null){
                 createImageProcessor()
             }else{
-                barcodePopup()
+                // Menu for selecting either: a) take new photo b) select from existing
+                val popup =
+                    PopupMenu(activity, view)
+                popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+                    val itemId =
+                        menuItem.itemId
+                    if (itemId == R.id.select_images_from_local) {
+                        startChooseImageIntentForResult()
+                        return@setOnMenuItemClickListener true
+                    } else if (itemId == R.id.take_photo_using_camera) {
+                        startCameraIntentForResult()
+                        return@setOnMenuItemClickListener true
+                    }
+                    false
+                }
+                val inflater = popup.menuInflater
+                inflater.inflate(R.menu.camera_button_menu, popup.menu)
+                popup.show()
             }
         }
         graphicOverlay = view.findViewById(R.id.graphic_overlay)
@@ -143,30 +160,9 @@ class GalleryFragment : Fragment() {
         )
     }
 
-    private fun barcodePopup() {
-        // Menu for selecting either: a) take new photo b) select from existing
-        val popup =
-            PopupMenu(activity, view)
-        popup.setOnMenuItemClickListener { menuItem: MenuItem ->
-            val itemId =
-                menuItem.itemId
-            if (itemId == R.id.select_images_from_local) {
-                startChooseImageIntentForResult()
-                return@setOnMenuItemClickListener true
-            } else if (itemId == R.id.take_photo_using_camera) {
-                startCameraIntentForResult()
-                return@setOnMenuItemClickListener true
-            }
-            false
-        }
-        val inflater = popup.menuInflater
-        inflater.inflate(R.menu.camera_button_menu, popup.menu)
-        popup.show()
-    }
-
-    private fun startCameraIntentForResult() { // Clean up last time's image
+    fun startCameraIntentForResult() { // Clean up last time's image
         imageUri = null
-        //preview!!.setImageBitmap(null)
+        
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(activity?.packageManager!!) != null) {
             val values = ContentValues()
@@ -181,7 +177,7 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    private fun startChooseImageIntentForResult() {
+    fun startChooseImageIntentForResult() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -307,6 +303,10 @@ class GalleryFragment : Fragment() {
     }
 
     companion object {
+        fun barcodePopup() {
+            TODO("Not yet implemented")
+        }
+
         private const val TAG = "StillImageActivity"
         private const val OBJECT_DETECTION = "Object Detection"
         private const val OBJECT_DETECTION_CUSTOM = "Custom Object Detection (Birds)"
