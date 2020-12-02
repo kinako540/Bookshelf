@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -29,9 +30,14 @@ class PlaceholderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_welcome, container, false)
-        val textView: TextView = root.findViewById(R.id.section_label)
+
+        val firstImage: ImageView = root.findViewById(R.id.section_label)
         pageViewModel.text.observe(viewLifecycleOwner, Observer<String> {
-            textView.text = it
+            when(it){
+                "2" -> firstImage.setImageResource(R.drawable.welcome2)
+
+                else -> firstImage.setImageResource(R.drawable.welcome1)
+            }
         })
         return root
     }
