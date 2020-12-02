@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
         var selectNo : Int = 0
         //表示するタイプ 0:リスト 1:グリッド
         var selectViewType : Int = 0
+        //TRUEの時startCameraを実行する
+        var selectCameraIntent = false
+        //TRUEの時startChooseImageを実行する
+        var selectChooseImageIntent = false
 
         //var no: Array<Int> = arrayOf(0)
         var bookTitle       : Array<String?> = arrayOfNulls(10000)

@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.bookshelf.BookDate
+import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
 import com.example.bookshelf.mlkit.BitmapUtils
 import com.example.bookshelf.mlkit.GraphicOverlay
@@ -59,6 +60,16 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TRUEの時startCameraを実行する
+        if(MainActivity.selectCameraIntent){
+            MainActivity.selectCameraIntent = false
+            startCameraIntentForResult()
+        }
+        if(MainActivity.selectChooseImageIntent){
+            MainActivity.selectChooseImageIntent = false
+            startChooseImageIntentForResult()
+        }
+
         val toastButton: Button = view.findViewById(R.id.button_self)
         toastButton.setOnClickListener {
             val intent = Intent(requireContext(), CreateActivity::class.java)
@@ -162,7 +173,6 @@ class GalleryFragment : Fragment() {
 
     fun startCameraIntentForResult() { // Clean up last time's image
         imageUri = null
-        
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(activity?.packageManager!!) != null) {
             val values = ContentValues()
