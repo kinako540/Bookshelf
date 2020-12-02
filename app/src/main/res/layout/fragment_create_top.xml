@@ -8,15 +8,25 @@
     tools:context=".ui.gallery.GalleryFragment"
     android:background="#F4F4F4">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="166dp"
+        android:layout_height="171dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_self"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/graphic_overlay"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
     <com.example.bookshelf.mlkit.GraphicOverlay
         android:id="@+id/graphic_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/root"
+        app:layout_constraintBottom_toBottomOf="@id/imageView"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@id/root"
-        app:layout_constraintRight_toRightOf="@id/root"
-        app:layout_constraintTop_toTopOf="@id/root"
+        app:layout_constraintLeft_toLeftOf="@id/imageView"
+        app:layout_constraintRight_toRightOf="@id/imageView"
+        app:layout_constraintTop_toTopOf="@id/imageView"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
