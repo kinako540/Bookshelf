@@ -61,6 +61,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_dialog_email" />
 
+        <Button
+            android:id="@+id/fab3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:background="@drawable/button_state"
+            app:layout_constraintBottom_toTopOf="@+id/fab2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_dialog_email" />
+
+        <Button
+            android:id="@+id/fab4"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:background="@drawable/button_state"
+            app:layout_constraintBottom_toTopOf="@+id/fab3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_dialog_email" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -19,6 +19,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import com.example.bookshelf.BookDate
 import com.example.bookshelf.Database.*
@@ -75,6 +76,7 @@ class CreateActivity : AppCompatActivity() {
                     // Google Books APIから取得したデータをログに出力
                     // Jsonのパースが失敗してアプリの強制終了を回避する機能
                     try {
+                        BookDate.barcode[0] = null
                         // JsonデータをJSONObjectに変換
                         val rootJson = JSONObject(response.body()!!.string())
                         // Jsonデータから蔵書リストデータ"items"を取得
@@ -94,16 +96,18 @@ class CreateActivity : AppCompatActivity() {
                                 if (volumeInfo.has("title")) {
                                     val barcodeTitle = volumeInfo.getString("title")
                                     editTitle.setText(barcodeTitle,TextView.BufferType.NORMAL)
-                                    BookDate.barcode[0] = null
-                                    Log.d("check", "barcodeTitleAnother："+ barcodeTitle)
                                 }
                                 if (volumeInfo.has("authors")) {
                                     val barcodeAuthors = volumeInfo.getString("authors")
                                     editAuthorName.setText(barcodeAuthors,TextView.BufferType.NORMAL)
                                 }
-                                //if (imageLinks.has("thumbnail")) {
-
-                                //}
+                                /*if (imageLinks.has("thumbnail")) {
+                                    val barcodeImage = imageLinks.getString("thumbnail")
+                                    val imageBytes = Base64.decode(barcodeImage, 0)
+                                    bookImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                                    val img = findViewById<ImageView>(R.id.imageButton)
+                                    img.setImageBitmap(bookImage)
+                                }*/
                                 if (volumeInfo.has("pageCount")) {
                                     val barcodePageCount = volumeInfo.getInt("pageCount")
                                     editPage.setText(barcodePageCount.toString(),TextView.BufferType.NORMAL)
