@@ -84,6 +84,10 @@ class GalleryFragment : Fragment() {
             if(BookDate.barcode[0] != null){
                 createImageProcessor()
             }else{
+                if(barcodeButton?.text == "読み込んだ画像で登録する"){
+                    barcodeButton?.text = "バーコードで登録"
+                    Toast.makeText(context,"バーコードが確認できませんでした",Toast.LENGTH_LONG).show()
+                }
                 // Menu for selecting either: a) take new photo b) select from existing
                 val popup =
                     PopupMenu(activity, view)
@@ -234,6 +238,7 @@ class GalleryFragment : Fragment() {
                 return
             }
 
+            Toast.makeText(context,"画像を読み込みました",Toast.LENGTH_LONG).show()
             barcodeButton?.text = "読み込んだ画像で登録する"
 
             val imageBitmap = BitmapUtils.getBitmapFromContentUri(

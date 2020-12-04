@@ -3,32 +3,25 @@ package com.example.bookshelf.ui.create
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues
-import android.icu.text.Collator.getInstance
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.provider.SyncStateContract.Helpers.insert
 import android.text.InputType
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.bookshelf.BookDate
+import com.example.bookshelf.Database.BookDBHelper
 import com.example.bookshelf.R
 import kotlinx.android.synthetic.main.activity_create.*
-import android.content.Context
-import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
-import android.util.Log
-import com.example.bookshelf.BookDate
-import com.example.bookshelf.Database.*
-import com.example.bookshelf.ui.gallery.GalleryFragment
 import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.time.LocalDate
+import java.net.URL
 
 class CreateActivity : AppCompatActivity() {
     var setYear = 2020
@@ -60,7 +53,15 @@ class CreateActivity : AppCompatActivity() {
             okHttpClient = OkHttpClient()
             // 通信するための情報
             // MainActivityで入力された文字列で検索する様修正
-            val request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:${BookDate.barcode[0]}").build()
+
+            var request: Request
+            //ISBNコードがどっちに入ってるかチェック
+            if (BookDate.barcode[0]!!.toLong() > 9780000000000){
+                request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:9784163902302").build()
+            }else{
+                request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:${BookDate.barcode[1]}").build()
+            }
+
             // データの取得後の命令を実装
             val callBack: Callback = object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -76,12 +77,15 @@ class CreateActivity : AppCompatActivity() {
                     // Jsonのパースが失敗してアプリの強制終了を回避する機能
                     try {
                         BookDate.barcode[0] = null
+                        BookDate.barcode[1] = null
                         // JsonデータをJSONObjectに変換
                         val rootJson = JSONObject(response.body()!!.string())
                         // Jsonデータから蔵書リストデータ"items"を取得
                         val items = rootJson.getJSONArray("items")
-                        Log.d("Success API Response", "APIから取得したデータの件数:" +
-                                items.length())
+                        Log.d(
+                            "Success API Response", "APIから取得したデータの件数:" +
+                                    items.length()
+                        )
                         // Jsonのパースエラーが発生した時に備えてtry~catchする
                         try {
                             // 蔵書リストの件数分繰り返しタイトルをログ出力する
@@ -90,35 +94,53 @@ class CreateActivity : AppCompatActivity() {
                                 val item = items.getJSONObject(i)
                                 // 蔵書のi番目データから蔵書情報のグループを取得
                                 val volumeInfo = item.getJSONObject("volumeInfo")
-                                //val imageLinks = volumeInfo.getJSONObject("imageLinks")
                                 // タイトルデータをリストに追加
                                 if (volumeInfo.has("title")) {
                                     val barcodeTitle = volumeInfo.getString("title")
-                                    editTitle.setText(barcodeTitle,TextView.BufferType.NORMAL)
+                                    editTitle.setText(barcodeTitle, TextView.BufferType.NORMAL)
                                 }
                                 if (volumeInfo.has("authors")) {
                                     val barcodeAuthors = volumeInfo.getString("authors")
-                                    editAuthorName.setText(barcodeAuthors,TextView.BufferType.NORMAL)
+                                    val barcodeAuthorsReplace = barcodeAuthors.replace("[\"", "").replace(
+                                        "\"]",
+                                        ""
+                                    )
+                                    editAuthorName.setText(
+                                        barcodeAuthorsReplace,
+                                        TextView.BufferType.NORMAL
+                                    )
                                 }
-                                /*if (imageLinks.has("thumbnail")) {
+                                if (volumeInfo.has("imageLinks")) {
+                                    val imageLinks = volumeInfo.getJSONObject("imageLinks")
                                     val barcodeImage = imageLinks.getString("thumbnail")
-                                    val imageBytes = Base64.decode(barcodeImage, 0)
-                                    bookImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                                    val img = findViewById<ImageView>(R.id.imageButton)
-                                    img.setImageBitmap(bookImage)
-                                }*/
+                                    //実装前
+                                    //val inputStream = URL(barcodeImage).openStream()
+                                    //bookImage = BitmapFactory.decodeStream(inputStream)
+                                    //val img = findViewById<ImageView>(R.id.imageButton)
+                                    //img.setImageBitmap(bookImage)
+                                }
                                 if (volumeInfo.has("pageCount")) {
                                     val barcodePageCount = volumeInfo.getInt("pageCount")
-                                    editPage.setText(barcodePageCount.toString(),TextView.BufferType.NORMAL)
+                                    editPage.setText(
+                                        barcodePageCount.toString(),
+                                        TextView.BufferType.NORMAL
+                                    )
                                 }
                                 if (volumeInfo.has("publishedDate")) {
                                     val barcodePublishedDate = volumeInfo.getString("publishedDate")
-                                    editIssuedDate.setText(barcodePublishedDate,TextView.BufferType.NORMAL)
+                                    val barcodePublishedDateReplace = barcodePublishedDate.replace(
+                                        "-",
+                                        "/"
+                                    )
+                                    editIssuedDate.setText(
+                                        barcodePublishedDateReplace,
+                                        TextView.BufferType.NORMAL
+                                    )
                                 }
-                                if (volumeInfo.has("printType")) {
+                                /*if (volumeInfo.has("printType")) {
                                     val barcodePrintType = volumeInfo.getString("printType")
                                     editGenre.setText(barcodePrintType,TextView.BufferType.NORMAL)
-                                }
+                                }*/
                                 //if (volumeInfo.has("categories")) {
                                 //barcodeCategoriesList.add(volumeInfo.getString("categories"))
                                 //}
@@ -210,10 +232,10 @@ class CreateActivity : AppCompatActivity() {
                     values.put("copyright", editCopyright.text.toString())
                     values.put("rating", editRating.text.toString())
                     values.put("favorite", "")
-                    values.put("describe","")
+                    values.put("describe", "")
                     values.put("possession", editPossession.text.toString())
-                    values.put("price","")
-                    values.put("storageLocation","")
+                    values.put("price", "")
+                    values.put("storageLocation", "")
                     values.put("saveDate", "")
 
 
