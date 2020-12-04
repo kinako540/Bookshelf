@@ -305,6 +305,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun DeleteData(id : String){
+        try {
+            val dbHelper = BookDBHelper(applicationContext, "Book", null, 1);
+            val database = dbHelper.writableDatabase
 
+            val whereClauses = "id = ?"
+            val whereArgs = arrayOf(id)
+            database.delete("Book", whereClauses, whereArgs)
+        }catch(exception: Exception) {
+            Log.e("deleteData", exception.toString())
+        }
+    }
 
 }
