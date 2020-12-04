@@ -47,8 +47,8 @@ class InfoActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        //↓↓↓↓データベース出来たら消す↓↓↓↓
-        ma.selectNo = 1
+        /*/↓↓↓↓データベース出来たら消す↓↓↓↓
+        /ma.selectNo = 1
         ma.bookTitle  [ma.selectNo] = "モゲます 総集編"
         ma.publisher  [ma.selectNo] = "もげもげ"
         ma.authorName [ma.selectNo] = "まげ"
@@ -56,7 +56,7 @@ class InfoActivity : AppCompatActivity() {
         ma.recordDate [ma.selectNo] = "2020/11/04"
         ma.basicGenre [ma.selectNo] = "アイドルマスター"
         ma.page       [ma.selectNo] = 20
-        ma.rating     [ma.selectNo] = 1
+        ma.rating     [ma.selectNo] = 1*/
         //↑↑↑↑データベース出来たら消す↑↑↑↑
 
         val fragment = TopFragment()
