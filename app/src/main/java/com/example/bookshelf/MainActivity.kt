@@ -1,6 +1,8 @@
 package com.example.bookshelf
 
+import android.animation.StateListAnimator
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.telephony.cdma.CdmaCellLocation
@@ -37,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_slideshow.*
+import java.sql.Blob
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         var selectNo : Int = 0
         //表示するタイプ 0:リスト 1:グリッド
         var selectViewType : Int = 0
-        var image           : Array<String?> = arrayOfNulls(10000)
+        var bookimage       : Array<Bitmap?> = arrayOfNulls(10000)
         //var no: Array<Int> = arrayOf(0)
         var bookTitle       : Array<String?> = arrayOfNulls(10000)
         var authorName      : Array<String?> = arrayOfNulls(10000)
@@ -270,9 +273,9 @@ class MainActivity : AppCompatActivity() {
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
 
-                    val blob: ByteArray = cursor.getBlob(3)
+                    val blob: ByteArray = cursor.getBlob(1)
                     val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
-                    arrayListBitmap.add(bitmap)
+                    bookimage[selectNo]       = (bitmap)
                     bookTitle[selectNo]       = (cursor.getString(2))
                     authorName[selectNo]      = (cursor.getString(3))
                     publisher[selectNo]       = (cursor.getString(4))

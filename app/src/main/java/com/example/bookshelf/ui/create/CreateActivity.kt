@@ -200,6 +200,7 @@ class CreateActivity : AppCompatActivity() {
                     val byteArrayOutputStream = ByteArrayOutputStream();
                     bookImage?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                     val image = byteArrayOutputStream.toByteArray()
+                    values.put("image",image)
                     values.put("title", editTitle.text.toString())
                     values.put("authorName", editAuthorName.text.toString())
                     values.put("publisher", editPublisher.text.toString())
