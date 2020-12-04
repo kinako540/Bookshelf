@@ -30,30 +30,30 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/bottomButton"
+        android:layout_width="304dp"
+        android:layout_height="328dp"
         android:layout_gravity="bottom|right"
         android:animateLayoutChanges="true">
 
         <ToggleButton
             android:id="@+id/fab"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:background="@drawable/button_state"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
             android:textOff=""
             android:textOn=""
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/fab2"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:background="@drawable/button_state"
@@ -63,8 +63,8 @@
 
         <Button
             android:id="@+id/fab3"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:background="@drawable/button_state"
@@ -74,14 +74,59 @@
 
         <Button
             android:id="@+id/fab4"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:background="@drawable/button_state"
             app:layout_constraintBottom_toTopOf="@+id/fab3"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_dialog_email" />
+
+        <TextView
+            android:id="@+id/textSyudou"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/flame_button"
+            android:gravity="center|center_horizontal"
+            android:text="手動入力"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fab2"
+            app:layout_constraintEnd_toStartOf="@+id/fab2" />
+
+        <TextView
+            android:id="@+id/textCamera"
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/flame_button"
+            android:gravity="center|center_horizontal"
+            android:text="バーコード読み取り"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fab3"
+            app:layout_constraintEnd_toStartOf="@+id/fab3" />
+
+        <TextView
+            android:id="@+id/textImage"
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/flame_button"
+            android:gravity="center|center_horizontal"
+            android:text="ファイルを読み取る"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fab4"
+            app:layout_constraintEnd_toStartOf="@+id/fab4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

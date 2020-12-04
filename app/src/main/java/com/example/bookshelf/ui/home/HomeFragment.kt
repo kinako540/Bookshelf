@@ -36,15 +36,18 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         hideBottomNav()
+        //hideBottomNav2()
 
         var selectBtn = false
         fab.setOnClickListener {
             if(selectBtn) {
                 hideBottomNav()
+                //hideBottomNav2()
                 selectBtn = false
             }
             else{
                 showBottomNav()
+                //showBottomNav2()
                 selectBtn = true
             }
         }
@@ -142,9 +145,20 @@ class HomeFragment : Fragment() {
         fab3.visibility = View.VISIBLE
         fab4.visibility = View.VISIBLE
     }
+    private fun showBottomNav2() {
+        textSyudou.visibility = View.VISIBLE
+        textCamera.visibility = View.VISIBLE
+        textImage.visibility = View.VISIBLE
+    }
+
     private fun hideBottomNav() {
         fab2.visibility = View.GONE
         fab3.visibility = View.GONE
         fab4.visibility = View.GONE
+    }
+    private fun hideBottomNav2() {
+        textSyudou.visibility = View.GONE
+        textCamera.visibility = View.GONE
+        textImage.visibility = View.GONE
     }
 }
