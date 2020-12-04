@@ -1,6 +1,8 @@
 package com.example.bookshelf
 
+import android.animation.StateListAnimator
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.telephony.cdma.CdmaCellLocation
@@ -37,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_slideshow.*
+import java.sql.Blob
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,12 +53,13 @@ class MainActivity : AppCompatActivity() {
         var selectNo : Int = 0
         //表示するタイプ 0:リスト 1:グリッド
         var selectViewType : Int = 0
+       
         //TRUEの時startCameraを実行する
         var selectCameraIntent = false
         //TRUEの時startChooseImageを実行する
         var selectChooseImageIntent = false
-
         //var no: Array<Int> = arrayOf(0)
+        var bookimage       : Array<Bitmap?> = arrayOfNulls(10000)
         var bookTitle       : Array<String?> = arrayOfNulls(10000)
         var authorName      : Array<String?> = arrayOfNulls(10000)
         var publisher       : Array<String?> = arrayOfNulls(10000)
@@ -80,18 +84,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        save(0,"わんこ","集米社","もちこ","",
-             "",0,"",false,0,false,
-             "","","","","","",
-             "","","","","",0,
-             0, "","")
-        userTag[1]
-        //selectNo = 1
-        load()
-
-        maxNo = 2
-
-        //↓↓↓↓データベース出来たら消す↓↓↓↓
+        /*//↓↓↓↓データベース出来たら消す↓↓↓↓
         selectNo = 1
         bookTitle  [selectNo] = "モゲます 総集編"
         publisher  [selectNo] = "もげもげ"
@@ -101,7 +94,22 @@ class MainActivity : AppCompatActivity() {
         basicGenre [selectNo] = "アイドルマスター"
         page       [selectNo] = 20
         rating     [selectNo] = 1
-        //↑↑↑↑データベース出来たら消す↑↑↑↑
+        //↑↑↑↑データベース出来たら消す↑↑↑↑*/
+
+        selectData()
+
+        save(0,"わんこ","集米社","もちこ","",
+             "",0,"",0,0,0,
+             "","","","","","",
+             "","","","","",0,
+             0, "","")
+        userTag[1]
+        //selectNo = 1
+        //load()
+
+        maxNo = 2
+
+
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -180,9 +188,9 @@ class MainActivity : AppCompatActivity() {
         recordDate      :String,
         page            :Int,
         basicGenre      :String,
-        copyright       :Boolean,
+        copyright       :Int,
         rating          :Int,
-        favorite        :Boolean,
+        favorite        :Int,
         userTag1:String,userTag2:String,userTag3:String,userTag4:String,userTag5:String,
         userTag6:String,userTag7:String,userTag8:String,userTag9:String,userTag10:String,
         describe        :String,
@@ -265,27 +273,30 @@ class MainActivity : AppCompatActivity() {
             val database = dbHelper.readableDatabase
 
             val sql = "select * from Book order by id"
-
             val cursor = database.rawQuery(sql, null)
             if (cursor.count > 0) {
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
-                    bookTitle   += (cursor.getString(2))
-                    authorName  += (cursor.getString(3))
-                    publisher   += (cursor.getString(4))
-                    issuedDate  += (cursor.getString(5))
-                    recordDate  += (cursor.getString(6))
-                    page        += (cursor.getInt(7))
-                    basicGenre  += (cursor.getString(8))
-                    //copyright += (cursor.getInt(9))
-                    rating += (cursor.getInt(10))
-                    //favorite += (cursor.getString(11))
-                    describe += (cursor.getString(12))
-                    possession += (cursor.getInt(13))
-                    price += (cursor.getInt(14))
-                    storageLocation +=(cursor.getString(15))
-                    //saveDate += (cursor.getString(16))
 
+                    val blob: ByteArray = cursor.getBlob(1)
+                    val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
+                    bookimage[selectNo]       = (bitmap)
+                    bookTitle[selectNo]       = (cursor.getString(2))
+                    authorName[selectNo]      = (cursor.getString(3))
+                    publisher[selectNo]       = (cursor.getString(4))
+                    issuedDate[selectNo]      = (cursor.getString(5))
+                    recordDate[selectNo]      = (cursor.getString(6))
+                    page[selectNo]            = (cursor.getInt(7))
+                    basicGenre[selectNo]      = (cursor.getString(8))
+                    copyright[selectNo]       = (cursor.getInt(9))
+                    rating[selectNo]          = (cursor.getInt(10))
+                    favorite[selectNo]        = (cursor.getInt(11))
+                    describe[selectNo]        = (cursor.getString(12))
+                    possession[selectNo]      = (cursor.getInt(13))
+                    price[selectNo]           = (cursor.getInt(14))
+                    storageLocation[selectNo] = (cursor.getString(15))
+                    saveDate[selectNo]        = (cursor.getInt(16))
+                    selectNo += 1
                     cursor.moveToNext()
                 }
             }

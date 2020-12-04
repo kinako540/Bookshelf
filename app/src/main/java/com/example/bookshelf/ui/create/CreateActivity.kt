@@ -27,6 +27,7 @@ import com.example.bookshelf.ui.gallery.GalleryFragment
 import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.time.LocalDate
 
@@ -200,6 +201,10 @@ class CreateActivity : AppCompatActivity() {
 
                     val values = ContentValues()
                     //("カラム名", 値)
+                    val byteArrayOutputStream = ByteArrayOutputStream();
+                    bookImage?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                    val image = byteArrayOutputStream.toByteArray()
+                    values.put("image",image)
                     values.put("title", editTitle.text.toString())
                     values.put("authorName", editAuthorName.text.toString())
                     values.put("publisher", editPublisher.text.toString())
