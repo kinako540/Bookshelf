@@ -17,6 +17,7 @@ import com.example.bookshelf.CustomAdapter2
 import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
 import com.example.bookshelf.ui.create.CreateActivity
+import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.activity_create.*
 import kotlinx.android.synthetic.main.activity_info.*
@@ -30,7 +31,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
 
@@ -48,9 +48,27 @@ class HomeFragment : Fragment() {
                 selectBtn = true
             }
         }
+        val gf = GalleryFragment()
+        val ma = MainActivity()
         fab2.setOnClickListener {
             val intent = Intent(requireContext(), CreateActivity::class.java)
             startActivity(intent)
+        }
+        fab3.setOnClickListener {
+            MainActivity.selectCameraIntent = true
+            val secondFragment = GalleryFragment()
+            val fragmentTransaction = fragmentManager?.beginTransaction()
+            fragmentTransaction?.addToBackStack(null)
+            fragmentTransaction?.replace(R.id.nav_host_fragment, secondFragment)
+            fragmentTransaction?.commit()
+        }
+        fab4.setOnClickListener {
+            MainActivity.selectChooseImageIntent = true
+            val secondFragment = GalleryFragment()
+            val fragmentTransaction = fragmentManager?.beginTransaction()
+            fragmentTransaction?.addToBackStack(null)
+            fragmentTransaction?.replace(R.id.nav_host_fragment, secondFragment)
+            fragmentTransaction?.commit()
         }
 
 
@@ -122,8 +140,12 @@ class HomeFragment : Fragment() {
 
     private fun showBottomNav() {
         fab2.visibility = View.VISIBLE
+        fab3.visibility = View.VISIBLE
+        fab4.visibility = View.VISIBLE
     }
     private fun hideBottomNav() {
         fab2.visibility = View.GONE
+        fab3.visibility = View.GONE
+        fab4.visibility = View.GONE
     }
 }

@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.bookshelf.BookDate
+import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
 import com.example.bookshelf.mlkit.BitmapUtils
 import com.example.bookshelf.mlkit.GraphicOverlay
@@ -59,13 +60,23 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TRUEの時startCameraを実行する
+        if(MainActivity.selectCameraIntent){
+            MainActivity.selectCameraIntent = false
+            startCameraIntentForResult()
+        }
+        if(MainActivity.selectChooseImageIntent){
+            MainActivity.selectChooseImageIntent = false
+            startChooseImageIntentForResult()
+        }
+
         val toastButton: Button = view.findViewById(R.id.button_self)
         toastButton.setOnClickListener {
             val intent = Intent(requireContext(), CreateActivity::class.java)
             startActivity(intent)
         }
 
-        val barcodeButton: Button = view.findViewById(R.id.button4)
+        val barcodeButton: Button = view.findViewById(R.id.button_barcode)
         barcodeButton.setOnClickListener { view: View ->
             if(BookDate.barcode[0] != null){
                 createImageProcessor()
@@ -160,9 +171,8 @@ class GalleryFragment : Fragment() {
         )
     }
 
-    private fun startCameraIntentForResult() { // Clean up last time's image
+    fun startCameraIntentForResult() { // Clean up last time's image
         imageUri = null
-        //preview!!.setImageBitmap(null)
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(activity?.packageManager!!) != null) {
             val values = ContentValues()
@@ -177,7 +187,7 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    private fun startChooseImageIntentForResult() {
+    fun startChooseImageIntentForResult() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -256,6 +266,7 @@ class GalleryFragment : Fragment() {
             )
             imageUri = null
         }
+        imageUri = null
     }
 
     private val targetedWidthHeight: Pair<Int, Int>
@@ -303,6 +314,10 @@ class GalleryFragment : Fragment() {
     }
 
     companion object {
+        fun barcodePopup() {
+            TODO("Not yet implemented")
+        }
+
         private const val TAG = "StillImageActivity"
         private const val OBJECT_DETECTION = "Object Detection"
         private const val OBJECT_DETECTION_CUSTOM = "Custom Object Detection (Birds)"
