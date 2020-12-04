@@ -68,6 +68,7 @@ class HomeFragment : Fragment() {
                 override fun onItemClickListener(view: View, position: Int, clickedText: String) {
                     Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT).show()
                     if(position == 0){
+                        MainActivity.selectNo = 1
                         Toast.makeText(requireContext(), "こんにちは", Toast.LENGTH_SHORT).show()
                         val intent = Intent(requireContext(), InfoActivity::class.java)
                         startActivity(intent)
