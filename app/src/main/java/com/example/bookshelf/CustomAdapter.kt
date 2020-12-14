@@ -1,10 +1,15 @@
 package com.example.bookshelf
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bookshelf.MainActivity.Companion.maxNo
+import com.example.bookshelf.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
+import kotlinx.coroutines.selects.select
 
 //// customListはrecyclerViewのコンテンツとしてに表示するString配列のデータ
 class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<CustomAdapter.CustomViewHolder>(){
@@ -28,18 +33,20 @@ class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<Custom
     }
 
     // recyclerViewのコンテンツのサイズ
-    override fun getItemCount(): Int = MainActivity.maxNo+1
+    override fun getItemCount(): Int = MainActivity.maxNo
 
     // ViewHolderに表示する画像とテキストを挿入
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.view.sampleImg.setImageResource(R.mipmap.ic_launcher_round)
         //holder.view.sampleTxt.text = customList[position]
+        println("ポジション:$position")
         holder.view.sampleTxt.text = MainActivity.bookTitle[position]
         holder.view.sampleTxt2.text = "出版社：" + MainActivity.publisher[position]
         holder.view.sampleTxt3.text = "作者　：" + MainActivity.authorName[position]
         println("タイトル"+"["+ position +"]:"+ MainActivity.bookTitle[position])
         // タップしたとき
         holder.view.setOnClickListener {
+            MainActivity.selectNo = position
             listener.onItemClickListener(it, position, MainActivity.bookTitle[position].toString())
             notifyDataSetChanged()
         }

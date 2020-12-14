@@ -41,6 +41,8 @@ class TextFragment : Fragment() {
         textRecordDate.text  = "登録日　：" + ma.recordDate[ma.selectNo]
         textBasicGenre.text  = "ジャンル：" + ma.basicGenre[ma.selectNo]
         textPage.text        = "ページ数：" + ma.page[ma.selectNo]
+        textRede2.text       = ma.describe[ma.selectNo]
+
         var tempText = "未入力"
         if(ma.rating[ma.selectNo] == 1) {
             tempText = "全年齢"
@@ -55,10 +57,6 @@ class TextFragment : Fragment() {
             tempText = "グロテスク"
         }
         textRating.text = "対象年齢：" + tempText
-
-        val setumei = "コンシューマーゲームのシリーズ作品は、2014年6月までに120万本を出荷している[12]。コンシューマーゲーム向け第1作目のXbox 360版「THE IDOLM@STER」はダウンロードコンテンツの売上が3億円を突破し、Xbox 360向けのコンテンツでは2008年1月時点で世界第3位を記録している[13]。" +
-                "ーム向け第1作目のXbox 360版「THE IDOLM@STER」はダウンロードコンテンツの売上が3億円を突破し、Xbox 360向けのコンテンツでは2008年1月時点で世界第3位を記録している[13]。"
-        textRede2.text = setumei
 
         return root
     }

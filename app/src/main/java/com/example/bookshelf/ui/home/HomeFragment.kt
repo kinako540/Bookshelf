@@ -87,16 +87,10 @@ class HomeFragment : Fragment() {
             // インターフェースの実装
             adapter.setOnItemClickListener(object: CustomAdapter.OnItemClickListener{
                 override fun onItemClickListener(view: View, position: Int, clickedText: String) {
+                    //MainActivity.selectNo = position
                     Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT).show()
-                    if(position == 0){
-                        MainActivity.selectNo = 1
-                        Toast.makeText(requireContext(), "こんにちは", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(requireContext(), InfoActivity::class.java)
-                        startActivity(intent)
-                    }
-                    else{
-                        Toast.makeText(requireContext(), "あああああ", Toast.LENGTH_SHORT).show()
-                    }
+                    val intent = Intent(requireContext(), InfoActivity::class.java)
+                    startActivity(intent)
                 }
             })
         }

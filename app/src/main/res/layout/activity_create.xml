@@ -257,6 +257,29 @@
                 app:layout_constraintBottom_toTopOf="@+id/editPossession"
                 app:layout_constraintStart_toStartOf="@+id/editPossession" />
 
+
+
+
+            <EditText
+                android:id="@+id/editDescribe"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="この本について"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editPossession" />
+
+            <TextView
+                android:id="@+id/textDescribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="説明"
+                app:layout_constraintBottom_toTopOf="@+id/editDescribe"
+                app:layout_constraintStart_toStartOf="@+id/editDescribe" />
+
             <Button
                 android:id="@+id/button"
                 android:layout_width="256dp"
@@ -266,7 +289,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editPossession"
+                app:layout_constraintTop_toBottomOf="@+id/editDescribe"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView

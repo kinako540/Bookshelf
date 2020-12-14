@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
@@ -31,6 +32,10 @@ class TopFragment : Fragment() {
         val textGrotesqueIcon :TextView = root.findViewById(R.id.textGrotesqueIcon)
         val textNonIcon :TextView = root.findViewById(R.id.textNonIcon)
         val bookName: TextView = root.findViewById(R.id.bookName)
+
+        //画像
+        var img: ImageView = root.findViewById(R.id.BookView)
+        img.setImageBitmap(ma.bookimage[ma.selectNo])
 
         //対象年齢
         if(ma.rating[ma.selectNo] == 1) {

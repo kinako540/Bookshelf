@@ -4,6 +4,7 @@ import android.animation.StateListAnimator
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.telephony.cdma.CdmaCellLocation
 import android.util.Log
@@ -53,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         var selectNo : Int = 0
         //表示するタイプ 0:リスト 1:グリッド
         var selectViewType : Int = 0
+        //アプリ初回起動
+        var load = false
        
         //TRUEの時startCameraを実行する
         var selectCameraIntent = false
@@ -84,29 +87,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /*//↓↓↓↓データベース出来たら消す↓↓↓↓
-        selectNo = 1
-        bookTitle  [selectNo] = "モゲます 総集編"
-        publisher  [selectNo] = "もげもげ"
-        authorName [selectNo] = "まげ"
-        issuedDate [selectNo] = "2020/10/04"
-        recordDate [selectNo] = "2020/11/04"
-        basicGenre [selectNo] = "アイドルマスター"
-        page       [selectNo] = 20
-        rating     [selectNo] = 1
-        //↑↑↑↑データベース出来たら消す↑↑↑↑*/
+        /*DeleteData("1")
+        DeleteData("2")
+        DeleteData("3")
+        DeleteData("4")
+        DeleteData("0")
+        DeleteData("5")
+        DeleteData("6")*/
 
-        selectData()
-
-        save(0,"わんこ","集米社","もちこ","",
-             "",0,"",0,0,0,
-             "","","","","","",
-             "","","","","",0,
-             0, "","")
-        userTag[1]
-        //selectNo = 1
-        //load()
-
+        if(!load){
+            selectData()
+            load = true
+        }
         maxNo = 2
 
 
@@ -179,71 +171,6 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun save(
-        no              :Int,
-        title           :String,
-        authorName      :String,
-        publisher       :String,
-        issuedDate      :String,
-        recordDate      :String,
-        page            :Int,
-        basicGenre      :String,
-        copyright       :Int,
-        rating          :Int,
-        favorite        :Int,
-        userTag1:String,userTag2:String,userTag3:String,userTag4:String,userTag5:String,
-        userTag6:String,userTag7:String,userTag8:String,userTag9:String,userTag10:String,
-        describe        :String,
-        possession      :Int,
-        price           :Int,
-        storageLocation :String,
-        getLocation     :String
-
-    ){
-        var data = getSharedPreferences("bookNo." + no.toString(), Context.MODE_PRIVATE)
-        val editor = data.edit()
-        editor.putString("TITLE", title)
-        editor.putString("AUTHOR_NAME", authorName)
-        editor.putString("PUBLISHER",publisher)
-        //editor.putInt("userTagCnt", userTagCnt)
-        /*for(i in 0..userTagCnt - 1){
-            editor.putString("userTag$i", userTag[i])
-        }*/
-        editor.apply()
-    }
-
-    fun load() {
-        //読み込む本の数
-        for(loadNo in 0..100) {
-            println("loadNo:"+loadNo)
-            // 読み出し
-            val data = getSharedPreferences("bookNo.$loadNo", Context.MODE_PRIVATE)
-            bookTitle [loadNo] = data.getString ("TITLE"      , null)
-            authorName[loadNo] = data.getString ("AUTHOR_NAME", null)
-            publisher [loadNo] = data.getString ("PUBLISHER"  , null)
-            issuedDate[loadNo] = data.getString ("ISSUED_DATE",null)
-            recordDate[loadNo] = data.getString ("RECORD_DATE",null)
-            page      [loadNo] = data.getInt    ("PAGE"       ,0)
-            basicGenre[loadNo] = data.getString ("RECORD_DATE",null)
-            copyright [loadNo] = data.getInt("COPYRIGHT"  ,0)
-            rating    [loadNo] = data.getInt    ("PAGE"       ,0)
-            favorite  [loadNo] = data.getInt("COPYRIGHT"  ,0)
-            for(i in 0..9){
-                userTag[loadNo][i]  = data.getString ("USER_TAG"        ,null)
-            }
-            describe       [loadNo] = data.getString ("DESCRIBE"        ,null)
-            possession     [loadNo] = data.getInt    ("POSSESSION"            ,0)
-            price          [loadNo] = data.getInt    ("PRICE"        ,0)
-            storageLocation[loadNo] = data.getString ("STORAGE_LOCATION",null)
-            getLocation    [loadNo] = data.getString ("GET_LOCATION"    ,null)
-            saveDate       [loadNo] = data.getInt("SAVE_DATE"       ,0)
-            println("TITLE:" + bookTitle[loadNo])
-            println("AUTHOR_NAME:" + authorName[loadNo])
-            println("PUBLISHER:" + publisher[loadNo])
-        }
-
-    }
-
     //下部のナビゲーションドロワーの表示、非表示
     private fun setupNav() {
         val navController = findNavController(R.id.nav_host_fragment)
@@ -277,7 +204,7 @@ class MainActivity : AppCompatActivity() {
             if (cursor.count > 0) {
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
-
+                    //バイトからビットマップへ変換
                     val blob: ByteArray = cursor.getBlob(1)
                     val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
                     bookimage[selectNo]       = (bitmap)
