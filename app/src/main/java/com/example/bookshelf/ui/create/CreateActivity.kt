@@ -54,7 +54,13 @@ class CreateActivity : AppCompatActivity() {
             okHttpClient = OkHttpClient()
             // 通信するための情報
             // MainActivityで入力された文字列で検索する様修正
-            val request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:${BookDate.barcode[0]}").build()
+            var request: Request
+            //ISBNコードがどっちに入ってるかチェック
+            if (BookDate.barcode[0]!!.toLong() > 9780000000000){
+                request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:9784163902302").build()
+            }else{
+                request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:${BookDate.barcode[1]}").build()
+            }
             // データの取得後の命令を実装
             val callBack: Callback = object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -70,6 +76,7 @@ class CreateActivity : AppCompatActivity() {
                     // Jsonのパースが失敗してアプリの強制終了を回避する機能
                     try {
                         BookDate.barcode[0] = null
+                        BookDate.barcode[1] = null
                         // JsonデータをJSONObjectに変換
                         val rootJson = JSONObject(response.body()!!.string())
                         // Jsonデータから蔵書リストデータ"items"を取得
@@ -94,18 +101,24 @@ class CreateActivity : AppCompatActivity() {
                                 }
                                 if (volumeInfo.has("authors")) {
                                     val barcodeAuthors = volumeInfo.getString("authors")
+                                    val barcodeAuthorsReplace = barcodeAuthors.replace("[\"", "").replace(
+                                        "\"]",
+                                        ""
+                                    )
                                     editAuthorName.setText(
-                                        barcodeAuthors,
+                                        barcodeAuthorsReplace,
                                         TextView.BufferType.NORMAL
                                     )
                                 }
-                                /*if (imageLinks.has("thumbnail")) {
+                                if (volumeInfo.has("imageLinks")) {
+                                    val imageLinks = volumeInfo.getJSONObject("imageLinks")
                                     val barcodeImage = imageLinks.getString("thumbnail")
-                                    val imageBytes = Base64.decode(barcodeImage, 0)
-                                    bookImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                                    val img = findViewById<ImageView>(R.id.imageButton)
-                                    img.setImageBitmap(bookImage)
-                                }*/
+                                    //実装前
+                                    //val inputStream = URL(barcodeImage).openStream()
+                                    //bookImage = BitmapFactory.decodeStream(inputStream)
+                                    //val img = findViewById<ImageView>(R.id.imageButton)
+                                    //img.setImageBitmap(bookImage)
+                                }
                                 if (volumeInfo.has("pageCount")) {
                                     val barcodePageCount = volumeInfo.getInt("pageCount")
                                     editPage.setText(
@@ -115,15 +128,19 @@ class CreateActivity : AppCompatActivity() {
                                 }
                                 if (volumeInfo.has("publishedDate")) {
                                     val barcodePublishedDate = volumeInfo.getString("publishedDate")
+                                    val barcodePublishedDateReplace = barcodePublishedDate.replace(
+                                        "-",
+                                        "/"
+                                    )
                                     editIssuedDate.setText(
-                                        barcodePublishedDate,
+                                        barcodePublishedDateReplace,
                                         TextView.BufferType.NORMAL
                                     )
                                 }
-                                if (volumeInfo.has("printType")) {
+                                /*if (volumeInfo.has("printType")) {
                                     val barcodePrintType = volumeInfo.getString("printType")
                                     editGenre.setText(barcodePrintType, TextView.BufferType.NORMAL)
-                                }
+                                }*/
                                 //if (volumeInfo.has("categories")) {
                                 //barcodeCategoriesList.add(volumeInfo.getString("categories"))
                                 //}
