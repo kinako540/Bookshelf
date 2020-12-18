@@ -26,7 +26,7 @@ class TopFragment : Fragment() {
     ): View? {
         val ma = MainActivity
         val root = inflater.inflate(R.layout.top_fragment, container, false)
-        val textSafeIcon :TextView = root.findViewById(R.id.bookName)
+        val textSafeIcon :TextView = root.findViewById(R.id.textSafeIcon)
         val textSpicyIcon :TextView = root.findViewById(R.id.textSpicyIcon)
         val textR_18Icon :TextView = root.findViewById(R.id.textR_18Icon)
         val textGrotesqueIcon :TextView = root.findViewById(R.id.textGrotesqueIcon)
@@ -38,28 +38,28 @@ class TopFragment : Fragment() {
         img.setImageBitmap(ma.bookimage[ma.selectNo])
 
         //対象年齢
-        if(ma.rating[ma.selectNo] == 1) {
+        if(ma.rating[ma.selectNo] == "全年齢対象") {
             textSafeIcon.setVisibility(View.VISIBLE)
             textSpicyIcon.setVisibility(View.GONE)
             textR_18Icon.setVisibility(View.GONE)
             textGrotesqueIcon.setVisibility(View.GONE)
             textNonIcon.setVisibility(View.GONE)
         }
-        else if(ma.rating[ma.selectNo] == 2){
+        else if(ma.rating[ma.selectNo] == "春画"){
             textSafeIcon.setVisibility(View.GONE)
             textSpicyIcon.setVisibility(View.VISIBLE)
             textR_18Icon.setVisibility(View.GONE)
             textGrotesqueIcon.setVisibility(View.GONE)
             textNonIcon.setVisibility(View.GONE)
         }
-        else if(ma.rating[ma.selectNo] == 3){
+        else if(ma.rating[ma.selectNo] == "R-18"){
             textSafeIcon.setVisibility(View.GONE)
             textSpicyIcon.setVisibility(View.GONE)
             textR_18Icon.setVisibility(View.VISIBLE)
             textGrotesqueIcon.setVisibility(View.GONE)
             textNonIcon.setVisibility(View.GONE)
         }
-        else if(ma.rating[ma.selectNo] == 4){
+        else if(ma.rating[ma.selectNo] == "R-18G"){
             textSafeIcon.setVisibility(View.GONE)
             textSpicyIcon.setVisibility(View.GONE)
             textR_18Icon.setVisibility(View.GONE)

@@ -2,6 +2,7 @@ package com.example.bookshelf
 
 import android.animation.StateListAnimator
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         var page            : Array<Int?>    = arrayOfNulls(10000)
         var basicGenre      : Array<String?> = arrayOfNulls(10000)
         var copyright       : Array<Int?>    = arrayOfNulls(10000)
-        var rating          : Array<Int?>    = arrayOfNulls(10000)
+        var rating          : Array<String?>    = arrayOfNulls(10000)
         var favorite        : Array<Int?>    = arrayOfNulls(10000)
         var userTag                          = Array(10000) {arrayOfNulls<String>(10)}
         var describe        : Array<String?> = arrayOfNulls(10000)
@@ -87,8 +88,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /*DeleteData("1")
-        DeleteData("2")
+        //deleteData("1")
+        /*DeleteData("2")
         DeleteData("3")
         DeleteData("4")
         DeleteData("0")
@@ -99,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             selectData()
             load = true
         }
-        maxNo = 2
 
 
 
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun selectData(){
         try {
-
+            selectNo = 0
             val dbHelper = BookDBHelper(applicationContext, "Book", null, 1)
             val database = dbHelper.readableDatabase
 
@@ -207,6 +207,7 @@ class MainActivity : AppCompatActivity() {
                     //バイトからビットマップへ変換
                     val blob: ByteArray = cursor.getBlob(1)
                     val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
+                    println("bookTitle["+selectNo+"]:"+bookTitle[selectNo])
                     bookimage[selectNo]       = (bitmap)
                     bookTitle[selectNo]       = (cursor.getString(2))
                     authorName[selectNo]      = (cursor.getString(3))
@@ -216,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                     page[selectNo]            = (cursor.getInt(7))
                     basicGenre[selectNo]      = (cursor.getString(8))
                     copyright[selectNo]       = (cursor.getInt(9))
-                    rating[selectNo]          = (cursor.getInt(10))
+                    rating[selectNo]          = (cursor.getString(10))
                     favorite[selectNo]        = (cursor.getInt(11))
                     describe[selectNo]        = (cursor.getString(12))
                     possession[selectNo]      = (cursor.getInt(13))
@@ -224,6 +225,9 @@ class MainActivity : AppCompatActivity() {
                     storageLocation[selectNo] = (cursor.getString(15))
                     saveDate[selectNo]        = (cursor.getInt(16))
                     selectNo += 1
+                    if(bookTitle[selectNo] == null){
+                        maxNo = selectNo
+                    }
                     cursor.moveToNext()
                 }
             }
@@ -232,7 +236,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun DeleteData(id : String){
+    fun deleteData(id : String){
         try {
             val dbHelper = BookDBHelper(applicationContext, "Book", null, 1);
             val database = dbHelper.writableDatabase
@@ -243,6 +247,12 @@ class MainActivity : AppCompatActivity() {
         }catch(exception: Exception) {
             Log.e("deleteData", exception.toString())
         }
+    }
+    fun reload(){
+        MainActivity.load = false
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        load = false
     }
 
 }

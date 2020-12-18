@@ -14,9 +14,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.bookshelf.BookDate
 import com.example.bookshelf.Database.BookDBHelper
+import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
+import com.example.bookshelf.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.activity_create.*
 import okhttp3.*
 import org.json.JSONException
@@ -250,9 +253,11 @@ class CreateActivity : AppCompatActivity() {
                     values.put("price", "")
                     values.put("storageLocation", "")
                     values.put("saveDate", "")
-
-
                     database.insertOrThrow("Book", null, values)
+
+                    MainActivity.load = false
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 } catch (exception: Exception) {
                     Log.e("insertData", exception.toString())
                 }

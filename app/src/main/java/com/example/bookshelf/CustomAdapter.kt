@@ -1,15 +1,16 @@
 package com.example.bookshelf
 
-import android.content.Intent
+import android.app.AlertDialog
+import android.app.PendingIntent.getActivity
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bookshelf.MainActivity.Companion.maxNo
-import com.example.bookshelf.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
-import kotlinx.coroutines.selects.select
+
 
 //// customListはrecyclerViewのコンテンツとしてに表示するString配列のデータ
 class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<CustomAdapter.CustomViewHolder>(){
@@ -43,22 +44,31 @@ class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<Custom
         holder.view.sampleTxt.text = MainActivity.bookTitle[position]
         holder.view.sampleTxt2.text = "出版社：" + MainActivity.publisher[position]
         holder.view.sampleTxt3.text = "作者　：" + MainActivity.authorName[position]
-        println("タイトル"+"["+ position +"]:"+ MainActivity.bookTitle[position])
+        println("タイトル" + "[" + position + "]:" + MainActivity.bookTitle[position])
         // タップしたとき
         holder.view.setOnClickListener {
             MainActivity.selectNo = position
             listener.onItemClickListener(it, position, MainActivity.bookTitle[position].toString())
             notifyDataSetChanged()
         }
+        holder.view.setOnLongClickListener {
+            MainActivity.selectNo = position
+            listener.onItemLongClickListener(it, position, MainActivity.bookTitle[position].toString())
+            true
+        }
     }
 
     //インターフェースの作成
     interface OnItemClickListener{
         fun onItemClickListener(view: View, position: Int, clickedText: String)
+        fun onItemLongClickListener(view: View, position: Int, clickedText: String)
     }
 
     // リスナー
     fun setOnItemClickListener(listener: OnItemClickListener){
+        this.listener = listener
+    }
+    fun setOnItemLongClickListener(listener: OnItemClickListener){
         this.listener = listener
     }
 

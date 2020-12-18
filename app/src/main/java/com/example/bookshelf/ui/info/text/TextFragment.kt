@@ -41,23 +41,8 @@ class TextFragment : Fragment() {
         textRecordDate.text  = "登録日　：" + ma.recordDate[ma.selectNo]
         textBasicGenre.text  = "ジャンル：" + ma.basicGenre[ma.selectNo]
         textPage.text        = "ページ数：" + ma.page[ma.selectNo]
+        textRating.text      = "対象年齢：" + ma.rating[ma.selectNo]
         textRede2.text       = ma.describe[ma.selectNo]
-
-        var tempText = "未入力"
-        if(ma.rating[ma.selectNo] == 1) {
-            tempText = "全年齢"
-        }
-        else if(ma.rating[ma.selectNo] == 2){
-            tempText = "過激な表現あり"
-        }
-        else if(ma.rating[ma.selectNo] == 3){
-            tempText = "成人向け"
-        }
-        else if(ma.rating[ma.selectNo] == 4){
-            tempText = "グロテスク"
-        }
-        textRating.text = "対象年齢：" + tempText
-
         return root
     }
 

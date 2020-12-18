@@ -1,7 +1,9 @@
 package com.example.bookshelf.ui.home
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,19 +11,15 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bookshelf.CustomAdapter
 import com.example.bookshelf.CustomAdapter2
+import com.example.bookshelf.Database.BookDBHelper
 import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
 import com.example.bookshelf.ui.create.CreateActivity
 import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.info.InfoActivity
-import kotlinx.android.synthetic.main.activity_create.*
-import kotlinx.android.synthetic.main.activity_info.*
-import kotlinx.android.synthetic.main.fragment_create_top.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -32,6 +30,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
+    var deleteNo :String = "0"
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,12 +85,19 @@ class HomeFragment : Fragment() {
             simpleRecyclerView.adapter = adapter
             simpleRecyclerView.setHasFixedSize(true)
             // インターフェースの実装
-            adapter.setOnItemClickListener(object: CustomAdapter.OnItemClickListener{
+            adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener {
                 override fun onItemClickListener(view: View, position: Int, clickedText: String) {
                     //MainActivity.selectNo = position
-                    Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT)
+                        .show()
                     val intent = Intent(requireContext(), InfoActivity::class.java)
                     startActivity(intent)
+                }
+                override fun onItemLongClickListener(view: View, position: Int, clickedText: String) {
+                    deleteNo = MainActivity.selectNo.toString()
+                    Toast.makeText(requireContext(), "${clickedText}が長押しされました", Toast.LENGTH_SHORT)
+                        .show()
+                    deleteLog()
                 }
             })
         }
@@ -103,13 +110,13 @@ class HomeFragment : Fragment() {
             simpleRecyclerView.adapter = adapter
             simpleRecyclerView.setHasFixedSize(true)
             // インターフェースの実装
-            adapter.setOnItemClickListener(object: CustomAdapter2.OnItemClickListener{
+            adapter.setOnItemClickListener(object : CustomAdapter2.OnItemClickListener {
                 override fun onItemClickListener(view: View, position: Int, clickedText: String) {
-                    Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT).show()
-                    if(position == 0){
+                    Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT)
+                        .show()
+                    if (position == 0) {
                         Toast.makeText(requireContext(), "こんにちは", Toast.LENGTH_SHORT).show()
-                    }
-                    else{
+                    } else {
                         Toast.makeText(requireContext(), "あああああ", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -118,13 +125,13 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val view: ToggleButton = root.findViewById(R.id.fab)
-        view.setOnCheckedChangeListener{_,a->
+        view.setOnCheckedChangeListener{ _, a->
             if(a) {
                 view.background = getDrawable(requireContext(), R.drawable.button_pressed)
             }
@@ -155,5 +162,31 @@ class HomeFragment : Fragment() {
         textSyudou.visibility = View.GONE
         textCamera.visibility = View.GONE
         textImage.visibility = View.GONE
+    }
+    fun deleteLog(){
+        AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
+            .setTitle("削除")
+            .setNegativeButton("キャンセル", null)
+            .setMessage("この作品を削除しますか？")
+            .setPositiveButton("OK") { dialog, which ->
+                (activity as MainActivity)?.deleteData(deleteNo)
+                println("削除されたID："+ deleteNo)
+                println("削除された本のタイトル："+ MainActivity.bookTitle[deleteNo.toInt()])
+
+                (activity as MainActivity)?.reload()
+            }
+            .show()
+    }
+    fun deleteData(id: String){
+        try {
+            val dbHelper = BookDBHelper(requireContext(), "Book", null, 1);
+            val database = dbHelper.writableDatabase
+
+            val whereClauses = "id = ?"
+            val whereArgs = arrayOf(id)
+            database.delete("Book", whereClauses, whereArgs)
+        }catch (exception: Exception) {
+            Log.e("deleteData", exception.toString())
+        }
     }
 }
