@@ -1,10 +1,16 @@
 package com.example.bookshelf
 
+import android.app.AlertDialog
+import android.app.PendingIntent.getActivity
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
+
 
 //// customListはrecyclerViewのコンテンツとしてに表示するString配列のデータ
 class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<CustomAdapter.CustomViewHolder>(){
@@ -28,30 +34,41 @@ class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<Custom
     }
 
     // recyclerViewのコンテンツのサイズ
-    override fun getItemCount(): Int = MainActivity.maxNo+1
+    override fun getItemCount(): Int = MainActivity.maxNo
 
     // ViewHolderに表示する画像とテキストを挿入
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.view.sampleImg.setImageResource(R.mipmap.ic_launcher_round)
         //holder.view.sampleTxt.text = customList[position]
+        println("ポジション:$position")
         holder.view.sampleTxt.text = MainActivity.bookTitle[position]
         holder.view.sampleTxt2.text = "出版社：" + MainActivity.publisher[position]
         holder.view.sampleTxt3.text = "作者　：" + MainActivity.authorName[position]
-        println("タイトル"+"["+ position +"]:"+ MainActivity.bookTitle[position])
+        println("タイトル" + "[" + position + "]:" + MainActivity.bookTitle[position])
         // タップしたとき
         holder.view.setOnClickListener {
+            MainActivity.selectNo = position
             listener.onItemClickListener(it, position, MainActivity.bookTitle[position].toString())
             notifyDataSetChanged()
+        }
+        holder.view.setOnLongClickListener {
+            MainActivity.selectNo = position
+            listener.onItemLongClickListener(it, position, MainActivity.bookTitle[position].toString())
+            true
         }
     }
 
     //インターフェースの作成
     interface OnItemClickListener{
         fun onItemClickListener(view: View, position: Int, clickedText: String)
+        fun onItemLongClickListener(view: View, position: Int, clickedText: String)
     }
 
     // リスナー
     fun setOnItemClickListener(listener: OnItemClickListener){
+        this.listener = listener
+    }
+    fun setOnItemLongClickListener(listener: OnItemClickListener){
         this.listener = listener
     }
 

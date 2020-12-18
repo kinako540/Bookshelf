@@ -5,33 +5,29 @@ package com.example.bookshelf.ui.create
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues
-import android.icu.text.Collator.getInstance
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
-import android.provider.SyncStateContract.Helpers.insert
 import android.text.InputType
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.bookshelf.R
-import kotlinx.android.synthetic.main.activity_create.*
-import android.content.Context
-import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
-import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.bookshelf.BookDate
-import com.example.bookshelf.Database.*
-import com.example.bookshelf.ui.gallery.GalleryFragment
+import com.example.bookshelf.Database.BookDBHelper
+import com.example.bookshelf.MainActivity
+import com.example.bookshelf.R
+import com.example.bookshelf.ui.info.InfoActivity
+import kotlinx.android.synthetic.main.activity_create.*
 import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.time.LocalDate
 
 class CreateActivity : AppCompatActivity() {
     var setYear = 2020
@@ -63,7 +59,13 @@ class CreateActivity : AppCompatActivity() {
             okHttpClient = OkHttpClient()
             // 通信するための情報
             // MainActivityで入力された文字列で検索する様修正
-            val request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:${BookDate.barcode[0]}").build()
+            var request: Request
+            //ISBNコードがどっちに入ってるかチェック
+            if (BookDate.barcode[0]!!.toLong() > 9780000000000){
+                request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:9784163902302").build()
+            }else{
+                request = Request.Builder().url("https://www.googleapis.com/books/v1/volumes?q=isbn:${BookDate.barcode[1]}").build()
+            }
             // データの取得後の命令を実装
             val callBack: Callback = object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -79,12 +81,15 @@ class CreateActivity : AppCompatActivity() {
                     // Jsonのパースが失敗してアプリの強制終了を回避する機能
                     try {
                         BookDate.barcode[0] = null
+                        BookDate.barcode[1] = null
                         // JsonデータをJSONObjectに変換
                         val rootJson = JSONObject(response.body()!!.string())
                         // Jsonデータから蔵書リストデータ"items"を取得
                         val items = rootJson.getJSONArray("items")
-                        Log.d("Success API Response", "APIから取得したデータの件数:" +
-                                items.length())
+                        Log.d(
+                            "Success API Response", "APIから取得したデータの件数:" +
+                                    items.length()
+                        )
                         // Jsonのパースエラーが発生した時に備えてtry~catchする
                         try {
                             // 蔵書リストの件数分繰り返しタイトルをログ出力する
@@ -97,31 +102,50 @@ class CreateActivity : AppCompatActivity() {
                                 // タイトルデータをリストに追加
                                 if (volumeInfo.has("title")) {
                                     val barcodeTitle = volumeInfo.getString("title")
-                                    editTitle.setText(barcodeTitle,TextView.BufferType.NORMAL)
+                                    editTitle.setText(barcodeTitle, TextView.BufferType.NORMAL)
                                 }
                                 if (volumeInfo.has("authors")) {
                                     val barcodeAuthors = volumeInfo.getString("authors")
-                                    editAuthorName.setText(barcodeAuthors,TextView.BufferType.NORMAL)
+                                    val barcodeAuthorsReplace = barcodeAuthors.replace("[\"", "").replace(
+                                        "\"]",
+                                        ""
+                                    )
+                                    editAuthorName.setText(
+                                        barcodeAuthorsReplace,
+                                        TextView.BufferType.NORMAL
+                                    )
                                 }
-                                /*if (imageLinks.has("thumbnail")) {
+                                if (volumeInfo.has("imageLinks")) {
+                                    val imageLinks = volumeInfo.getJSONObject("imageLinks")
                                     val barcodeImage = imageLinks.getString("thumbnail")
-                                    val imageBytes = Base64.decode(barcodeImage, 0)
-                                    bookImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                                    val img = findViewById<ImageView>(R.id.imageButton)
-                                    img.setImageBitmap(bookImage)
-                                }*/
+                                    //実装前
+                                    //val inputStream = URL(barcodeImage).openStream()
+                                    //bookImage = BitmapFactory.decodeStream(inputStream)
+                                    //val img = findViewById<ImageView>(R.id.imageButton)
+                                    //img.setImageBitmap(bookImage)
+                                }
                                 if (volumeInfo.has("pageCount")) {
                                     val barcodePageCount = volumeInfo.getInt("pageCount")
-                                    editPage.setText(barcodePageCount.toString(),TextView.BufferType.NORMAL)
+                                    editPage.setText(
+                                        barcodePageCount.toString(),
+                                        TextView.BufferType.NORMAL
+                                    )
                                 }
                                 if (volumeInfo.has("publishedDate")) {
                                     val barcodePublishedDate = volumeInfo.getString("publishedDate")
-                                    editIssuedDate.setText(barcodePublishedDate,TextView.BufferType.NORMAL)
+                                    val barcodePublishedDateReplace = barcodePublishedDate.replace(
+                                        "-",
+                                        "/"
+                                    )
+                                    editIssuedDate.setText(
+                                        barcodePublishedDateReplace,
+                                        TextView.BufferType.NORMAL
+                                    )
                                 }
-                                if (volumeInfo.has("printType")) {
+                                /*if (volumeInfo.has("printType")) {
                                     val barcodePrintType = volumeInfo.getString("printType")
-                                    editGenre.setText(barcodePrintType,TextView.BufferType.NORMAL)
-                                }
+                                    editGenre.setText(barcodePrintType, TextView.BufferType.NORMAL)
+                                }*/
                                 //if (volumeInfo.has("categories")) {
                                 //barcodeCategoriesList.add(volumeInfo.getString("categories"))
                                 //}
@@ -143,7 +167,6 @@ class CreateActivity : AppCompatActivity() {
         var img = findViewById<ImageButton>(R.id.imageButton)
         img.isFocusable = false
         img.setOnClickListener {
-            //startChooseImageIntentForResult()
             selectPhoto()
         }
 
@@ -203,10 +226,20 @@ class CreateActivity : AppCompatActivity() {
 
                     val values = ContentValues()
                     //("カラム名", 値)
-                    val byteArrayOutputStream = ByteArrayOutputStream();
-                    bookImage?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                    var imageBit = bookImage
+                    val size = imageBit!!.width * imageBit!!.height
+                    val matrix = Matrix()
+                    if(size >= 1000000){
+                        matrix.postScale(0.3f, 0.3f) // 0.1倍調整
+                    }
+                    else{
+                        matrix.postScale(1f, 1f) // 0.1倍調整
+                    }
+                    val scaledBitmap = Bitmap.createBitmap(imageBit!!, 0, 0, imageBit.width, imageBit.height, matrix, true)
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                     val image = byteArrayOutputStream.toByteArray()
-                    values.put("image",image)
+                    values.put("image", image)
                     values.put("title", editTitle.text.toString())
                     values.put("authorName", editAuthorName.text.toString())
                     values.put("publisher", editPublisher.text.toString())
@@ -217,14 +250,16 @@ class CreateActivity : AppCompatActivity() {
                     values.put("copyright", editCopyright.text.toString())
                     values.put("rating", editRating.text.toString())
                     values.put("favorite", "")
-                    values.put("describe","")
+                    values.put("describe", editDescribe.text.toString())
                     values.put("possession", editPossession.text.toString())
-                    values.put("price","")
-                    values.put("storageLocation","")
+                    values.put("price", "")
+                    values.put("storageLocation", "")
                     values.put("saveDate", "")
-
-
                     database.insertOrThrow("Book", null, values)
+
+                    MainActivity.load = false
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 } catch (exception: Exception) {
                     Log.e("insertData", exception.toString())
                 }
