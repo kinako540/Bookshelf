@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         var favorite        : Array<Int?>    = arrayOfNulls(10000)
         var userTag                          = Array(10000) {arrayOfNulls<String>(10)}
         var describe        : Array<String?> = arrayOfNulls(10000)
-        var possession      : Array<Int?>    = arrayOfNulls(10000)
+        var possession      : Array<String?>    = arrayOfNulls(10000)
         var price           : Array<Int?>    = arrayOfNulls(10000)
         var storageLocation : Array<String?> = arrayOfNulls(10000)
         var getLocation     : Array<String?> = arrayOfNulls(10000)
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         var T_favorite        : Array<Int?>    = arrayOfNulls(10000)
         var T_userTag                          = Array(10000) {arrayOfNulls<String>(10)}
         var T_describe        : Array<String?> = arrayOfNulls(10000)
-        var T_possession      : Array<Int?>    = arrayOfNulls(10000)
+        var T_possession      : Array<String?>    = arrayOfNulls(10000)
         var T_price           : Array<Int?>    = arrayOfNulls(10000)
         var T_storageLocation : Array<String?> = arrayOfNulls(10000)
         var T_getLocation     : Array<String?> = arrayOfNulls(10000)
@@ -124,6 +124,8 @@ class MainActivity : AppCompatActivity() {
         var S_tag :Int = 99
         var maxCnt1:Int = 0
         var maxCnt2:Int = 0
+        var maxCnt3:Int = 0
+        var maxCnt4:Int = 0
         var masterMaxCnt:Int = 0
         var masterTempNo: Array<Int?> = arrayOfNulls(10000)
         var tempNo1: Array<Int?> = arrayOfNulls(10000)
@@ -271,7 +273,7 @@ class MainActivity : AppCompatActivity() {
                     rating[selectNo]          = (cursor.getString(10))
                     favorite[selectNo]        = (cursor.getInt(11))
                     describe[selectNo]        = (cursor.getString(12))
-                    possession[selectNo]      = (cursor.getInt(13))
+                    possession[selectNo]      = (cursor.getString(13))
                     price[selectNo]           = (cursor.getInt(14))
                     storageLocation[selectNo] = (cursor.getString(15))
                     saveDate[selectNo]        = (cursor.getInt(16))
@@ -327,8 +329,8 @@ class MainActivity : AppCompatActivity() {
                 println("押された→"+strList[which])
                 when (which) {
                     0 -> { selectGenre() }
-                    1 -> { selectRating()}
-                    2 -> {}
+                    1 -> { selectRating() }
+                    2 -> { selectPosition() }
                     3 -> {}
                     else -> {}
                 }
@@ -399,6 +401,35 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
+    //所持状況
+    private fun selectPosition(){
+        if(S_position != 99){
+            allClear()
+        }
+        S_position = 0
+        val strList = arrayOf("未所持","デジタル","実物","両方")
+        AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+            .setTitle("所持状況")
+            .setSingleChoiceItems(strList, 0) { dialog, which ->
+                when (which) {
+                    0 -> { S_position = 0}
+                    1 -> { S_position = 1}
+                    2 -> { S_position = 2}
+                    3 -> { S_position = 3}
+                    else -> { S_position= 0}
+                }
+            }
+            .setPositiveButton("OK") { dialog, which ->
+                createDate()
+            }
+            .setNegativeButton("キャンセル") { dialog, which ->
+                // TODO:Noが押された時の挙動
+            }
+            .setNeutralButton("クリア") { dialog, which ->
+                // TODO:その他が押された時の挙動
+            }
+            .show()
+    }
     //条件検索を全てのクリアする
     private fun ClearDialog(){
         AlertDialog.Builder(this) // FragmentではActivityを取得して生成
@@ -427,6 +458,8 @@ class MainActivity : AppCompatActivity() {
         S_tag = 99
         maxCnt1 = 0
         maxCnt2 = 0
+        maxCnt3 = 0
+        maxCnt4 = 0
         masterMaxCnt = 0
         masterTempNo = arrayOfNulls(10000)
         clearDate()
@@ -538,28 +571,107 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        //------------------------------------------------------------------------------------------
+        //対象年齢
+        println("S_position = "+ S_position)
+        if(S_position == 0){
+            var cnt:Int = 0
+            for(i in 0..maxNo){
+                println("T_position[i]="+ T_possession[i])
+                if(T_possession[i] == "未所持"){
+                    tempNo3[cnt] = i
+                    cnt++
+                    maxCnt3 = cnt
+                }
+            }
+        }
+        if(S_position == 1){
+            var cnt:Int = 0
+            for(i in 0..maxNo){
+                println("T_position[i]="+ T_possession[i])
+                if(T_possession[i] == "デジタル"){
+                    tempNo3[cnt] = i
+                    cnt++
+                    maxCnt3 = cnt
+                }
+            }
+        }
+        if(S_position == 2){
+            var cnt:Int = 0
+            for(i in 0..maxNo){
+                println("T_position[i]="+ T_possession[i])
+                if(T_possession[i] == "実物"){
+                    tempNo3[cnt] = i
+                    cnt++
+                    maxCnt3 = cnt
+                }
+            }
+        }
+        if(S_position == 3){
+            var cnt:Int = 0
+            for(i in 0..maxNo){
+                println("T_position[i]="+ T_possession[i])
+                if(T_possession[i] == "両方"){
+                    tempNo3[cnt] = i
+                    cnt++
+                    maxCnt3 = cnt
+                }
+            }
+        }
         //統合
         var cnt:Int = 0
-        //ジャンルと対象年齢で条件付け
-        if(S_genre != 99 && S_rating != 99){
+        //ジャンルと対象年齢と所持状況
+        if(S_genre != 99 && S_rating != 99 && S_position != 99) {
+            for (i1 in 0..maxCnt1 - 1) {
+                for (i2 in 0..maxCnt2 - 1) {
+                    for (i3 in 0..maxCnt3 - 1) {
+                        if (tempNo1[i1] == tempNo2[i2] && tempNo1[i1] == tempNo3[i3]) {
+                            println("一致：tempNo1[" + i1 + "] = " + tempNo1[i1] + " == tempNo2[" + i2 + "] = " + tempNo2[i2])
+                            masterTempNo[cnt] = tempNo3[i3]
+                            cnt++
+                            masterMaxCnt = cnt
+                        }
+                    }
+                }
+            }
+        }
+        //ジャンルと対象年齢
+        else if(S_genre != 99 && S_rating != 99){
             for(i1 in 0..maxCnt1-1) {
                 for (i2 in 0..maxCnt2-1) {
                     if(tempNo1[i1] == tempNo2[i2]){
                         println("一致：tempNo1["+i1+"] = "+ tempNo1[i1] + " == tempNo2["+i2+"] = "+ tempNo2[i2])
-                        masterTempNo[cnt] = i1
+                        masterTempNo[cnt] = tempNo2[i2]
                         cnt++
                         masterMaxCnt = cnt
                     }
                 }
             }
         }
-        else if(S_genre != 99 && S_rating == 99){
+        //ジャンルと所持状況で条件付け
+        else if(S_genre != 99 && S_position != 99){
+            for(i1 in 0..maxCnt1-1) {
+                for (i2 in 0..maxCnt3-1) {
+                    if (tempNo1[i1] == tempNo3[i2]) {
+                        println("一致：tempNo1[" + i1 + "] = " + tempNo1[i1] + " == tempNo3[" + i2 + "] = " + tempNo3[i2])
+                        masterTempNo[cnt] = tempNo3[i2]
+                        cnt++
+                        masterMaxCnt = cnt
+                    }
+                }
+            }
+        }
+        else if(S_genre != 99 && S_rating == 99 && S_position == 99){
             masterTempNo = tempNo1
             masterMaxCnt = maxCnt1
         }
-        else if(S_genre == 99 && S_rating != 99){
+        else if(S_genre == 99 && S_rating != 99 && S_position == 99){
             masterTempNo = tempNo2
             masterMaxCnt = maxCnt2
+        }
+        else if(S_genre == 99 && S_rating == 99 && S_position != 99){
+            masterTempNo = tempNo3
+            masterMaxCnt = maxCnt3
         }
         clearDate()
         println("masterMaxCnt = "+masterMaxCnt)

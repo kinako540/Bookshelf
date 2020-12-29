@@ -32,6 +32,7 @@ class TextFragment : Fragment() {
         val textBasicGenre: TextView = root.findViewById(R.id.textBasicGenre)
         val textPage: TextView = root.findViewById(R.id.textPage)
         val textRating: TextView = root.findViewById(R.id.textRating)
+        val textPosition: TextView = root.findViewById(R.id.textPossession)
         val textRede2: TextView = root.findViewById(R.id.textRede2)
 
         textTitle.text = "タイトル：" + ma.bookTitle[ma.selectNo]
@@ -42,6 +43,7 @@ class TextFragment : Fragment() {
         textBasicGenre.text  = "ジャンル：" + ma.basicGenre[ma.selectNo]
         textPage.text        = "ページ数：" + ma.page[ma.selectNo]
         textRating.text      = "対象年齢：" + ma.rating[ma.selectNo]
+        textPosition.text    = "所持状況：" + ma.possession[ma.selectNo]
         textRede2.text       = ma.describe[ma.selectNo]
         return root
     }

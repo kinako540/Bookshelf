@@ -194,6 +194,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/textRating" />
 
             <TextView
+                android:id="@+id/textPossession"
+                android:layout_width="0dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="8dp"
+                android:text="所持状況"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+            <View
+                android:id="@+id/view9"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray1"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/textPossession" />
+
+            <TextView
                 android:id="@+id/textRede"
                 android:layout_width="0dp"
                 android:layout_height="27dp"
@@ -203,7 +223,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/textRating" />
+                app:layout_constraintTop_toBottomOf="@+id/view9" />
 
             <TextView
                 android:id="@+id/textRede2"
@@ -220,7 +240,7 @@
                 android:id="@+id/view0"
                 android:layout_width="335dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="150dp"
                 android:background="@color/gray1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
