@@ -33,8 +33,8 @@ class CreateActivity : AppCompatActivity() {
     var setDay = 1
 
     // ジャンル
-    val genreList = arrayOf("漫画", "雑誌", "小説")
-    val ratingList = arrayOf("全年齢対象", "春画", "R-18", "R-18G")
+    val genreList = arrayOf("漫画", "雑誌", "小説","その他")
+    val ratingList = arrayOf("全年齢対象", "過激な表現あり", "R-18", "R-18G")
     val possessionList = arrayOf("未所持", "デジタル", "実物", "両方")
 
     //版権
@@ -305,6 +305,8 @@ class CreateActivity : AppCompatActivity() {
                     body.setText("雑誌", TextView.BufferType.NORMAL)
                 } else if (which == 2) {
                     body.setText("小説", TextView.BufferType.NORMAL)
+                } else if (which == 3) {
+                    body.setText("その他", TextView.BufferType.NORMAL)
                 }
             }
             .setPositiveButton("OK") { dialog, which ->
@@ -322,7 +324,7 @@ class CreateActivity : AppCompatActivity() {
                 if (which == 0) {
                     body.setText("全年齢対象", TextView.BufferType.NORMAL)
                 } else if (which == 1) {
-                    body.setText("春画", TextView.BufferType.NORMAL)
+                    body.setText("過激な表現あり", TextView.BufferType.NORMAL)
                 } else if (which == 2) {
                     body.setText("R-18", TextView.BufferType.NORMAL)
                 } else if (which == 3) {

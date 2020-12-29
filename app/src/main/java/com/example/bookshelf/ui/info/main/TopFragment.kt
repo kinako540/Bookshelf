@@ -45,7 +45,7 @@ class TopFragment : Fragment() {
             textGrotesqueIcon.setVisibility(View.GONE)
             textNonIcon.setVisibility(View.GONE)
         }
-        else if(ma.rating[ma.selectNo] == "春画"){
+        else if(ma.rating[ma.selectNo] == "過激な表現あり"){
             textSafeIcon.setVisibility(View.GONE)
             textSpicyIcon.setVisibility(View.VISIBLE)
             textR_18Icon.setVisibility(View.GONE)
