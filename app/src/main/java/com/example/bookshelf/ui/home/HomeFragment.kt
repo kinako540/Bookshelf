@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
                     startActivity(intent)
                 }
                 override fun onItemLongClickListener(view: View, position: Int, clickedText: String) {
-                    deleteNo = MainActivity.selectNo.toString()
+                    deleteNo = MainActivity.bookID[MainActivity.selectNo].toString()
                     Toast.makeText(requireContext(), "${clickedText}が長押しされました", Toast.LENGTH_SHORT)
                         .show()
                     deleteLog()
@@ -172,21 +172,7 @@ class HomeFragment : Fragment() {
                 (activity as MainActivity)?.deleteData(deleteNo)
                 println("削除されたID："+ deleteNo)
                 println("削除された本のタイトル："+ MainActivity.bookTitle[deleteNo.toInt()])
-
-                (activity as MainActivity)?.reload()
             }
             .show()
-    }
-    fun deleteData(id: String){
-        try {
-            val dbHelper = BookDBHelper(requireContext(), "Book", null, 1);
-            val database = dbHelper.writableDatabase
-
-            val whereClauses = "id = ?"
-            val whereArgs = arrayOf(id)
-            database.delete("Book", whereClauses, whereArgs)
-        }catch (exception: Exception) {
-            Log.e("deleteData", exception.toString())
-        }
     }
 }

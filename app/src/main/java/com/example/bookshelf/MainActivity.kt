@@ -41,6 +41,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_slideshow.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.sql.Blob
 import java.util.*
 import kotlin.collections.ArrayList
@@ -57,12 +59,15 @@ class MainActivity : AppCompatActivity() {
         var selectViewType : Int = 0
         //アプリ初回起動
         var load = false
+        //削除時
+        var del = false
        
         //TRUEの時startCameraを実行する
         var selectCameraIntent = false
         //TRUEの時startChooseImageを実行する
         var selectChooseImageIntent = false
         //var no: Array<Int> = arrayOf(0)
+        var bookID          : Array<Int?>    = arrayOfNulls(10000)
         var bookimage       : Array<Bitmap?> = arrayOfNulls(10000)
         var bookTitle       : Array<String?> = arrayOfNulls(10000)
         var authorName      : Array<String?> = arrayOfNulls(10000)
@@ -208,6 +213,7 @@ class MainActivity : AppCompatActivity() {
                     val blob: ByteArray = cursor.getBlob(1)
                     val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
                     println("bookTitle["+selectNo+"]:"+bookTitle[selectNo])
+                    bookID[selectNo]          = (cursor.getInt(0))
                     bookimage[selectNo]       = (bitmap)
                     bookTitle[selectNo]       = (cursor.getString(2))
                     authorName[selectNo]      = (cursor.getString(3))
@@ -231,6 +237,10 @@ class MainActivity : AppCompatActivity() {
                     cursor.moveToNext()
                 }
             }
+            if(del){
+                maxNo =  maxNo -1
+            }
+            println("最大値は"+maxNo)
         }catch(exception: Exception) {
             Log.e("selectData", exception.toString());
         }
@@ -238,21 +248,25 @@ class MainActivity : AppCompatActivity() {
 
     fun deleteData(id : String){
         try {
+            del = true
             val dbHelper = BookDBHelper(applicationContext, "Book", null, 1);
             val database = dbHelper.writableDatabase
 
             val whereClauses = "id = ?"
             val whereArgs = arrayOf(id)
             database.delete("Book", whereClauses, whereArgs)
+            reload()
         }catch(exception: Exception) {
             Log.e("deleteData", exception.toString())
         }
     }
     fun reload(){
-        MainActivity.load = false
+        GlobalScope.launch {
+            selectData()
+        }
+        Thread.sleep(1000)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        load = false
     }
 
 }
