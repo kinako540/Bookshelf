@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
 
@@ -38,8 +39,9 @@ class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<Custom
 
     // ViewHolderに表示する画像とテキストを挿入
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.view.sampleImg.setImageResource(R.mipmap.ic_launcher_round)
-        //holder.view.sampleTxt.text = customList[position]
+
+
+        holder.view.sampleImg.setImageBitmap(MainActivity.bookimage[position])
         println("ポジション:$position")
         holder.view.sampleTxt.text = MainActivity.bookTitle[position]
         holder.view.sampleTxt2.text = "出版社：" + MainActivity.publisher[position]

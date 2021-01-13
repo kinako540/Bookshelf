@@ -226,12 +226,16 @@ class CreateActivity : AppCompatActivity() {
                     //("カラム名", 値)
                     var imageBit = bookImage
                     val size = imageBit!!.width * imageBit!!.height
+                    println("サイズ："+size)
                     val matrix = Matrix()
-                    if(size >= 1000000){
-                        matrix.postScale(0.3f, 0.3f) // 0.1倍調整
+                    if(size >= 10000000){
+                        matrix.postScale(0.1f, 0.1f) // 0.1倍調整
+                    }
+                    else if(size >= 10000000){
+                        matrix.postScale(0.5f, 0.5f) // 0.5倍調整
                     }
                     else{
-                        matrix.postScale(1f, 1f) // 0.1倍調整
+                        matrix.postScale(1f, 1f) // 1倍調整
                     }
                     val scaledBitmap = Bitmap.createBitmap(imageBit!!, 0, 0, imageBit.width, imageBit.height, matrix, true)
                     val byteArrayOutputStream = ByteArrayOutputStream()

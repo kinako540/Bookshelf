@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/color_from_press_state"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="160dp"
     android:layout_margin="3dp"
     android:id="@+id/list">
 
 
     <ImageView
         android:id="@+id/sampleImg"
-        android:layout_width="75dp"
-        android:layout_height="74dp"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
         android:layout_margin="10dp"
         android:layout_marginStart="4dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
