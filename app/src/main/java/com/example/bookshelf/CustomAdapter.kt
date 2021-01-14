@@ -41,11 +41,13 @@ class CustomAdapter(val customList: Array<String>) : RecyclerView.Adapter<Custom
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
 
-        holder.view.sampleImg.setImageBitmap(MainActivity.bookimage[position])
+        holder.view.sampleImg_x.setImageBitmap(MainActivity.bookimage[position])
         println("ポジション:$position")
         holder.view.sampleTxt.text = MainActivity.bookTitle[position]
-        holder.view.sampleTxt2.text = "出版社：" + MainActivity.publisher[position]
-        holder.view.sampleTxt3.text = "作者　：" + MainActivity.authorName[position]
+        holder.view.sampleTxt2.text = "" + MainActivity.authorName[position]
+        holder.view.sampleTxt3.text = "出版社　：" + MainActivity.publisher[position]
+        holder.view.sampleTxt4.text = "ジャンル：" + MainActivity.basicGenre[position]
+        holder.view.sampleTxt5.text = "対象年齢：" + MainActivity.rating[position]
         println("タイトル" + "[" + position + "]:" + MainActivity.bookTitle[position])
         // タップしたとき
         holder.view.setOnClickListener {

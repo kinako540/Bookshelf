@@ -33,7 +33,7 @@ class CustomAdapter2(val customList: Array<String>) : RecyclerView.Adapter<Custo
 
     // ViewHolderに表示する画像とテキストを挿入
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.view.sampleImg.setImageResource(R.mipmap.ic_launcher_round)
+        holder.view.sampleImg_x.setImageResource(R.mipmap.ic_launcher_round)
         //holder.view.textView.text = customList[position]
         //holder.view.textView.text = MainActivity.bookTitle[position]
         //holder.view.sampleTxt2.text = "出版社：" + MainActivity.publisher[position]
