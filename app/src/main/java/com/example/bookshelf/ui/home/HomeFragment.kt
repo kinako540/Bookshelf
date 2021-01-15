@@ -3,24 +3,25 @@ package com.example.bookshelf.ui.home
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.ToggleButton
+import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bookshelf.CustomAdapter
 import com.example.bookshelf.CustomAdapter2
-import com.example.bookshelf.Database.BookDBHelper
 import com.example.bookshelf.MainActivity
 import com.example.bookshelf.R
 import com.example.bookshelf.ui.create.CreateActivity
 import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -35,6 +36,12 @@ class HomeFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        //戻るイベント
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            shutdownLog()
+        }
+
         hideBottomNav()
         //hideBottomNav2()
 
@@ -93,7 +100,12 @@ class HomeFragment : Fragment() {
                     val intent = Intent(requireContext(), InfoActivity::class.java)
                     startActivity(intent)
                 }
-                override fun onItemLongClickListener(view: View, position: Int, clickedText: String) {
+
+                override fun onItemLongClickListener(
+                    view: View,
+                    position: Int,
+                    clickedText: String
+                ) {
                     deleteNo = MainActivity.bookID[MainActivity.selectNo].toString()
                     Toast.makeText(requireContext(), "${clickedText}が長押しされました", Toast.LENGTH_SHORT)
                         .show()
@@ -170,8 +182,22 @@ class HomeFragment : Fragment() {
             .setMessage("この作品を削除しますか？")
             .setPositiveButton("OK") { dialog, which ->
                 (activity as MainActivity)?.deleteData(deleteNo)
-                println("削除されたID："+ deleteNo)
-                println("削除された本のタイトル："+ MainActivity.bookTitle[deleteNo.toInt()])
+                println("削除されたID：" + deleteNo)
+                println("削除された本のタイトル：" + MainActivity.bookTitle[deleteNo.toInt()])
+            }
+            .show()
+    }
+    fun shutdownLog(){
+        AlertDialog.Builder(requireContext()) // FragmentではActivityを取得して生成
+            .setTitle("ホーム")
+            .setNegativeButton("キャンセル", null)
+            .setMessage("ホームに戻りますか？")
+            .setPositiveButton("OK") { dialog, which ->
+                //activity?.finishAndRemoveTask()
+                val homeIntent = Intent(Intent.ACTION_MAIN)
+                homeIntent.addCategory(Intent.CATEGORY_HOME)
+                homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                this.startActivity(homeIntent)
             }
             .show()
     }

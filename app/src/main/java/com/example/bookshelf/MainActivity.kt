@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     companion object {
+
         //選択した本のナンバー
         var selectNo : Int = 0
         //表示するタイプ 0:リスト 1:グリッド
@@ -238,6 +240,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun showBottomNav() {
         //bottom_navigation.visibility = View.VISIBLE
     }
@@ -708,8 +711,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(getIntent())
     }
     //変数初期化
-    private fun clearDate(){
-        bookID =  arrayOfNulls(10000)
+    private fun clearDate() {
+        bookID = arrayOfNulls(10000)
         bookimage = arrayOfNulls(10000)
         bookTitle = arrayOfNulls(10000)
         authorName = arrayOfNulls(10000)
@@ -727,6 +730,16 @@ class MainActivity : AppCompatActivity() {
         storageLocation = arrayOfNulls(10000)
         getLocation = arrayOfNulls(10000)
         saveDate = arrayOfNulls(10000)
+    }
+    //終了dialog
+    fun shutdownLog(){
+        android.app.AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+            .setTitle("終了")
+            .setNegativeButton("キャンセル", null)
+            .setMessage("アプリを終了しますか？")
+            .setPositiveButton("OK") { dialog, which ->
+            }
+            .show()
     }
 
 

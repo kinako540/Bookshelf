@@ -49,11 +49,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/view1"
         android:layout_width="0dp"
         android:layout_height="7dp"
         android:layout_marginTop="16dp"
-        android:background="#37D17979"
+        android:background="#37808080"
         app:layout_constraintEnd_toEndOf="@+id/sampleTxt"
         app:layout_constraintStart_toStartOf="@+id/sampleTxt"
         app:layout_constraintTop_toTopOf="@+id/sampleTxt" />
@@ -74,7 +74,7 @@
         android:layout_width="0dp"
         android:layout_height="7dp"
         android:layout_marginTop="16dp"
-        android:background="#37D17979"
+        android:background="#37808080"
         app:layout_constraintEnd_toEndOf="@+id/sampleTxt2"
         app:layout_constraintStart_toStartOf="@+id/sampleTxt2"
         app:layout_constraintTop_toTopOf="@+id/sampleTxt2" />
@@ -121,7 +121,7 @@
         android:layout_height="226dp"
         android:layout_marginStart="156dp"
         android:layout_marginTop="80dp"
-        android:background="#37D17979"
+        android:background="#37808080"
         android:rotation="-41"
         android:rotationX="0"
         android:rotationY="0"

@@ -5,4 +5,9 @@
     <color name="colorAccent">#F9A825</color>
 
     <color name="gray1">#8A8A8A</color>
+
+    <color name="usu_green">#377CD179</color>
+    <color name="usu_orange">#37D1A679</color>
+    <color name="usu_pink">#37D17979</color>
+    <color name="usu_purple">#37AF79D1</color>
 </resources>
