@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.net.Uri
 import android.os.Bundle
 import android.telephony.cdma.CdmaCellLocation
 import android.util.Log
@@ -35,7 +36,6 @@ import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.home.HomeFragment
 import com.example.bookshelf.ui.info.main.TextFragment
 import com.example.bookshelf.ui.info.main.TopFragment
-import com.example.bookshelf.ui.slideshow.SlideshowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.common.base.Converter
 import kotlinx.android.synthetic.main.activity_info.*
@@ -92,6 +92,8 @@ class MainActivity : AppCompatActivity() {
         var storageLocation : Array<String?> = arrayOfNulls(10000)
         var getLocation     : Array<String?> = arrayOfNulls(10000)
         var saveDate        : Array<Int?>    = arrayOfNulls(10000)
+        var linkName        : Array<String?> = arrayOfNulls(10000)
+        var linkURL         : Array<String?> = arrayOfNulls(10000)
 
         //------------------------------------------------------------------------------------------
         // テンプ
@@ -115,6 +117,8 @@ class MainActivity : AppCompatActivity() {
         var T_storageLocation : Array<String?> = arrayOfNulls(10000)
         var T_getLocation     : Array<String?> = arrayOfNulls(10000)
         var T_saveDate        : Array<Int?>    = arrayOfNulls(10000)
+        var T_linkName        : Array<String?> = arrayOfNulls(10000)
+        var T_linkURL         : Array<String?> = arrayOfNulls(10000)
 
         var maxNo:Int = 0
         var defaultMaxNo:Int = 0
@@ -140,14 +144,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //deleteData("1")
-        /*DeleteData("2")
-        DeleteData("3")
-        DeleteData("4")
-        DeleteData("0")
-        DeleteData("5")
-        DeleteData("6")*/
 
         if(!load){
             selectData()
@@ -280,6 +276,8 @@ class MainActivity : AppCompatActivity() {
                     price[selectNo]           = (cursor.getInt(14))
                     storageLocation[selectNo] = (cursor.getString(15))
                     saveDate[selectNo]        = (cursor.getInt(16))
+                    linkName[selectNo]        = (cursor.getString(17))
+                    linkURL[selectNo]         = (cursor.getString(18))
                     selectNo += 1
                     if(bookTitle[selectNo] == null){
                         maxNo = selectNo
@@ -487,6 +485,8 @@ class MainActivity : AppCompatActivity() {
         T_storageLocation = storageLocation
         T_getLocation = getLocation
         T_saveDate = saveDate
+        T_linkName = linkName
+        T_linkURL  = linkURL
 
         //漫画
         println("S_genre = "+S_genre)
@@ -699,6 +699,8 @@ class MainActivity : AppCompatActivity() {
             storageLocation[i] = T_storageLocation[masterTempNo[i]!!]
             getLocation[i] = T_getLocation[masterTempNo[i]!!]
             saveDate[i] = T_saveDate[masterTempNo[i]!!]
+            linkName[i] = T_linkName[masterTempNo[i]!!]
+            linkURL[i] = T_linkURL[masterTempNo[i]!!]
         }
         tempNo1 = arrayOfNulls(10000)
         tempNo2 = arrayOfNulls(10000)
@@ -730,6 +732,8 @@ class MainActivity : AppCompatActivity() {
         storageLocation = arrayOfNulls(10000)
         getLocation = arrayOfNulls(10000)
         saveDate = arrayOfNulls(10000)
+        linkName = arrayOfNulls(10000)
+        linkURL = arrayOfNulls(10000)
     }
     //終了dialog
     fun shutdownLog(){
@@ -740,6 +744,12 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("OK") { dialog, which ->
             }
             .show()
+    }
+    //起動
+    public fun startBrowser(url:String){
+        val uri = Uri.parse("url")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 
 

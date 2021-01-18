@@ -43,18 +43,18 @@ class HomeFragment : Fragment() {
         }
 
         hideBottomNav()
-        //hideBottomNav2()
+        hideBottomNav2()
 
         var selectBtn = false
         fab.setOnClickListener {
             if(selectBtn) {
                 hideBottomNav()
-                //hideBottomNav2()
+                hideBottomNav2()
                 selectBtn = false
             }
             else{
                 showBottomNav()
-                //showBottomNav2()
+                showBottomNav2()
                 selectBtn = true
             }
         }
@@ -145,10 +145,10 @@ class HomeFragment : Fragment() {
         val view: ToggleButton = root.findViewById(R.id.fab)
         view.setOnCheckedChangeListener{ _, a->
             if(a) {
-                view.background = getDrawable(requireContext(), R.drawable.button_pressed)
+                view.background = getDrawable(requireContext(), R.drawable.cross)
             }
             else{
-                view.background = getDrawable(requireContext(), R.drawable.button_default)
+                view.background = getDrawable(requireContext(), R.drawable.plus)
             }
         }
         return root

@@ -257,6 +257,8 @@ class CreateActivity : AppCompatActivity() {
                     values.put("price", "")
                     values.put("storageLocation", "")
                     values.put("saveDate", "")
+                    values.put("linkName", editLinkName.text.toString())
+                    values.put("linkURL", editLinkURL.text.toString())
                     database.insertOrThrow("Book", null, values)
 
                     MainActivity.load = false
