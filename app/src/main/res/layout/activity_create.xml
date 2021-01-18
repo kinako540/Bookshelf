@@ -257,6 +257,50 @@
                 app:layout_constraintBottom_toTopOf="@+id/editPossession"
                 app:layout_constraintStart_toStartOf="@+id/editPossession" />
 
+            <EditText
+                android:id="@+id/editLinkName"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="サイト名"
+                android:inputType="textPersonName"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editPossession" />
+
+            <TextView
+                android:id="@+id/textLinkName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="リンク"
+                app:layout_constraintBottom_toTopOf="@+id/editLinkName"
+                app:layout_constraintStart_toStartOf="@+id/editLinkName" />
+
+            <EditText
+                android:id="@+id/editLinkURL"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="http://"
+                android:inputType="textPersonName"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editLinkName" />
+
+            <TextView
+                android:id="@+id/textLinkURL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="URL"
+                app:layout_constraintBottom_toTopOf="@+id/editLinkURL"
+                app:layout_constraintStart_toStartOf="@+id/editLinkURL" />
+
 
 
 
@@ -269,7 +313,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editPossession" />
+                app:layout_constraintTop_toBottomOf="@+id/editLinkURL" />
 
             <TextView
                 android:id="@+id/textDescribe"

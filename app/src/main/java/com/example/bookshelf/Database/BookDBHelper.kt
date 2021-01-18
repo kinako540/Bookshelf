@@ -9,7 +9,7 @@ class BookDBHelper(context: Context, databaseName:String, factory: SQLiteDatabas
                             SQLiteOpenHelper(context, databaseName, factory, version) {
 
     override fun onCreate(database: SQLiteDatabase?) {
-        database?.execSQL("create table if not exists Book(id integer primary key, image None,title String, authorName String, publisher String, issuedDate String, recordDate String, page Int, basicGenre String, copyright Boolean, rating Int, favorite Int, describe String, possession Int, price Int, storageLocation String, saveDate Int)")
+        database?.execSQL("create table if not exists Book(id integer primary key, image None,title String, authorName String, publisher String, issuedDate String, recordDate String, page Int, basicGenre String, copyright Boolean, rating Int, favorite Int, describe String, possession Int, price Int, storageLocation String, saveDate Int,linkName String,linkURL String)")
     }
 
     override fun onUpgrade(database: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

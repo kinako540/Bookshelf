@@ -8,7 +8,7 @@
     tools:context=".ui.gallery.GalleryFragment"
     android:background="#F4F4F4">
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/imageView"
         android:layout_width="166dp"
         android:layout_height="171dp"
@@ -16,40 +16,60 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/graphic_overlay"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        tools:src="@tools:sample/backgrounds/scenic" /> -->
+
+
+    <!-- <view
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.5"
+        android:background="#FFECB3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /> -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="537dp"
+        android:layout_height="318dp"
+        android:background="@drawable/book1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.bookshelf.mlkit.GraphicOverlay
         android:id="@+id/graphic_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/imageView"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@id/imageView"
-        app:layout_constraintRight_toRightOf="@id/imageView"
-        app:layout_constraintTop_toTopOf="@id/imageView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_self"
-        android:layout_width="285dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="360dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="80dp"
         android:text="手動で登録"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.579"
+        android:background="@drawable/button_state2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
         android:id="@+id/button_barcode"
-        android:layout_width="282dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="80dp"
         android:text="バーコードで登録"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.589"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_self" />
+        android:background="@drawable/button_state2"
+        app:layout_constraintStart_toEndOf="@+id/button_self"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <include
         android:id="@+id/settings_button"
