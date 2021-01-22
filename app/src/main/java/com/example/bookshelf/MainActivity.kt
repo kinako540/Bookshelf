@@ -179,10 +179,6 @@ class MainActivity : AppCompatActivity() {
         bnv.setOnNavigationItemSelectedListener { item ->
             when (item.itemId){
                 R.id.nav_home -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.nav_host_fragment, HomeFragment())
-                        .commit()
-                    return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_gallery   -> {
                     selectContents()

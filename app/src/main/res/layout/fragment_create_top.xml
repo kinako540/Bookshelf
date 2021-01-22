@@ -68,7 +68,7 @@
     <Button
         android:id="@+id/button_self"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_state2"
@@ -79,7 +79,7 @@
     <Button
         android:id="@+id/button_barcode"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_state2"

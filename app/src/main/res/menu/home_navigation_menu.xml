@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_home"
-        android:icon="@android:drawable/btn_star_big_on"
-        android:title="TOP"/>
-    <item
         android:id="@+id/nav_gallery"
         android:icon="@drawable/ic_menu_gallery"
         android:title="条件"/>
@@ -14,6 +10,6 @@
         android:title="検索"/>
     <item
         android:id="@+id/nav_clear"
-        android:icon="@drawable/ic_menu_slideshow"
+        android:icon="@drawable/ic_menu_camera"
         android:title="クリア"/>
 </menu>
