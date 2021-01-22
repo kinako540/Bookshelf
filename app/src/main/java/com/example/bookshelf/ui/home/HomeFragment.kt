@@ -38,10 +38,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if(searchBar){
-            search.visibility = View.VISIBLE
-        }
-
         //戻るイベント
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             shutdownLog()

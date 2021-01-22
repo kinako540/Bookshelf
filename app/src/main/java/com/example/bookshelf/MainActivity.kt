@@ -192,6 +192,22 @@ class MainActivity : AppCompatActivity() {
                         buttonS = true
                         searchBar = true
                         search.visibility = View.VISIBLE
+                        //検索バー
+                        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                            override fun onQueryTextChange(newText: String): Boolean {
+                                return false
+                            }
+
+                            override fun onQueryTextSubmit(query: String): Boolean {
+                                searchDate(query)
+                                finish()
+                                startActivity(getIntent())
+                                buttonS = false
+                                searchBar = false
+                                println("検索開始")
+                                return false
+                            }
+                        })
                     }
                     else if(buttonS == true) {
                         buttonS = false
@@ -199,25 +215,11 @@ class MainActivity : AppCompatActivity() {
                         search.visibility = View.GONE
                     }
                 }
-                R.id.nav_setting   -> {}
+                R.id.nav_clear   -> {
+                    ClearDialog()
+                }
             }
             return@setOnNavigationItemSelectedListener false
-        }
-        if(searchBar) {
-            search.visibility = View.VISIBLE
-            //検索バー
-            search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(newText: String): Boolean {
-                    // text changed
-                    return false
-                }
-
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    searchDate(query)
-                    
-                    return false
-                }
-            })
         }
 
 
