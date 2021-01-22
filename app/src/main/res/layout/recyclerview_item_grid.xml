@@ -8,15 +8,12 @@
     android:layout_margin="3dp"
     android:id="@+id/list">
 
-
-
-
     <ImageView
-        android:id="@+id/sampleImg"
+        android:id="@+id/sampleImg2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
         android:maxLines="1"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,5 +21,26 @@
         app:layout_constraintVertical_bias="0.555"
         app:srcCompat="@mipmap/ic_launcher_round"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/sampleTxt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1"
+        android:fontFamily="serif-monospace"
+        android:gravity="left"
+        android:maxLines="1"
+        android:shadowColor="#444"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:text="タイトル"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sampleImg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

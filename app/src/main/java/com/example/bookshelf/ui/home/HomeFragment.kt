@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bookshelf.CustomAdapter
 import com.example.bookshelf.CustomAdapter2
 import com.example.bookshelf.MainActivity
+import com.example.bookshelf.MainActivity.Companion.searchBar
 import com.example.bookshelf.R
 import com.example.bookshelf.ui.create.CreateActivity
 import com.example.bookshelf.ui.gallery.GalleryFragment
@@ -36,6 +37,10 @@ class HomeFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        if(searchBar){
+            search.visibility = View.VISIBLE
+        }
 
         //戻るイベント
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -124,16 +129,32 @@ class HomeFragment : Fragment() {
             // インターフェースの実装
             adapter.setOnItemClickListener(object : CustomAdapter2.OnItemClickListener {
                 override fun onItemClickListener(view: View, position: Int, clickedText: String) {
+                    //MainActivity.selectNo = position
                     Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT)
                         .show()
-                    if (position == 0) {
-                        Toast.makeText(requireContext(), "こんにちは", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(requireContext(), "あああああ", Toast.LENGTH_SHORT).show()
-                    }
+                    val intent = Intent(requireContext(), InfoActivity::class.java)
+                    startActivity(intent)
                 }
             })
         }
+        /*if(MainActivity.selectViewType == 1){
+            // 表示するテキスト配列を作る [テキスト１, テキスト２, ....]
+            list = Array<String>(10) {"テキスト$it"}
+            var adapter = CustomAdapter2(list)
+            // アダプターとレイアウトマネージャーをセット
+            simpleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+            simpleRecyclerView.adapter = adapter
+            simpleRecyclerView.setHasFixedSize(true)
+            // インターフェースの実装
+            adapter.setOnItemClickListener(object : CustomAdapter2.OnItemClickListener {
+                override fun onItemClickListener(view: View, position: Int, clickedText: String) {
+                    Toast.makeText(requireContext(), "${clickedText}がタップされました", Toast.LENGTH_SHORT)
+                        .show()
+                    val intent = Intent(requireContext(), InfoActivity::class.java)
+                    startActivity(intent)
+                }
+            })
+        }*/
     }
 
     override fun onCreateView(

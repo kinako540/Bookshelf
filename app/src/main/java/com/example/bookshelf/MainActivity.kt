@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
@@ -32,6 +33,7 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookshelf.Database.BookDBHelper
 import com.example.bookshelf.R.id.fab
+import com.example.bookshelf.R.id.search
 import com.example.bookshelf.ui.gallery.GalleryFragment
 import com.example.bookshelf.ui.home.HomeFragment
 import com.example.bookshelf.ui.info.main.TextFragment
@@ -138,6 +140,10 @@ class MainActivity : AppCompatActivity() {
         var tempNo2: Array<Int?> = arrayOfNulls(10000)
         var tempNo3: Array<Int?> = arrayOfNulls(10000)
         var tempNo4: Array<Int?> = arrayOfNulls(10000)
+
+        //検索バー
+        var searchBar = false
+        var buttonS = false
     }
 
 
@@ -180,15 +186,38 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_gallery   -> {
                     selectContents()
-                    /*supportFragmentManager.beginTransaction()
-                        .replace(R.id.nav_host_fragment, GalleryFragment())
-                        .commit()
-                    return@setOnNavigationItemSelectedListener true*/
                 }
-                R.id.nav_slideshow -> {}
+                R.id.nav_slideshow -> {
+                    if(buttonS == false) {
+                        buttonS = true
+                        searchBar = true
+                        search.visibility = View.VISIBLE
+                    }
+                    else if(buttonS == true) {
+                        buttonS = false
+                        searchBar = false
+                        search.visibility = View.GONE
+                    }
+                }
                 R.id.nav_setting   -> {}
             }
             return@setOnNavigationItemSelectedListener false
+        }
+        if(searchBar) {
+            search.visibility = View.VISIBLE
+            //検索バー
+            search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    // text changed
+                    return false
+                }
+
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    searchDate(query)
+                    
+                    return false
+                }
+            })
         }
 
 
@@ -292,8 +321,68 @@ class MainActivity : AppCompatActivity() {
             defaultMaxNo = maxNo
             println("最大値は"+maxNo)
         }catch(exception: Exception) {
-            Log.e("selectData", exception.toString());
+            Log.e("selectData", exception.toString())
         }
+    }
+    fun searchDate(name:String){
+        try {
+            val search = "'"+ name +"%'"
+            println("検索:+$search")
+            clearDate()
+            selectNo = 0
+            val dbHelper = BookDBHelper(applicationContext, "Book", null, 1)
+            val database = dbHelper.readableDatabase
+
+            val sql = "select * from Book where title like $search OR authorName like $search OR publisher like $search"
+            val cursor = database.rawQuery(sql, null)
+            if (cursor.count > 0) {
+                cursor.moveToFirst()
+                while (!cursor.isAfterLast) {
+                    //バイトからビットマップへ変換
+                    val blob: ByteArray = cursor.getBlob(1)
+                    val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
+                    println("bookTitle["+selectNo+"]:"+bookTitle[selectNo])
+                    bookID[selectNo]          = (cursor.getInt(0))
+                    bookimage[selectNo]       = (bitmap)
+                    bookTitle[selectNo]       = (cursor.getString(2))
+                    authorName[selectNo]      = (cursor.getString(3))
+                    publisher[selectNo]       = (cursor.getString(4))
+                    issuedDate[selectNo]      = (cursor.getString(5))
+                    recordDate[selectNo]      = (cursor.getString(6))
+                    page[selectNo]            = (cursor.getInt(7))
+                    basicGenre[selectNo]      = (cursor.getString(8))
+                    copyright[selectNo]       = (cursor.getInt(9))
+                    rating[selectNo]          = (cursor.getString(10))
+                    favorite[selectNo]        = (cursor.getInt(11))
+                    describe[selectNo]        = (cursor.getString(12))
+                    possession[selectNo]      = (cursor.getString(13))
+                    price[selectNo]           = (cursor.getInt(14))
+                    storageLocation[selectNo] = (cursor.getString(15))
+                    saveDate[selectNo]        = (cursor.getInt(16))
+                    linkName[selectNo]        = (cursor.getString(17))
+                    linkURL[selectNo]         = (cursor.getString(18))
+                    selectNo += 1
+                    if(bookTitle[selectNo] == null){
+                        maxNo = selectNo
+                    }
+                    cursor.moveToNext()
+                }
+            }
+            if(del){
+                del = false
+                maxNo =  maxNo -1
+            }
+            defaultMaxNo = maxNo
+            println("最大値は"+maxNo)
+            if(bookID[0] == null){
+                maxNo = 0
+            }
+        }catch(exception: Exception) {
+            Log.e("selectData", exception.toString())
+        }
+        finish()
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(getIntent())
     }
 
     fun deleteData(id : String){
