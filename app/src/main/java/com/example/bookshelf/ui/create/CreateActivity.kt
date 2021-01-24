@@ -26,6 +26,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.net.URL
 
 class CreateActivity : AppCompatActivity() {
     var setYear = 2020
@@ -88,6 +89,7 @@ class CreateActivity : AppCompatActivity() {
                             "Success API Response", "APIから取得したデータの件数:" +
                                     items.length()
                         )
+                        println("リザルト→$rootJson")
                         // Jsonのパースエラーが発生した時に備えてtry~catchする
                         try {
                             // 蔵書リストの件数分繰り返しタイトルをログ出力する
@@ -116,11 +118,12 @@ class CreateActivity : AppCompatActivity() {
                                 if (volumeInfo.has("imageLinks")) {
                                     val imageLinks = volumeInfo.getJSONObject("imageLinks")
                                     val barcodeImage = imageLinks.getString("thumbnail")
+                                    println("barcodeImage:$barcodeImage")
                                     //実装前
-                                    //val inputStream = URL(barcodeImage).openStream()
-                                    //bookImage = BitmapFactory.decodeStream(inputStream)
-                                    //val img = findViewById<ImageView>(R.id.imageButton)
-                                    //img.setImageBitmap(bookImage)
+                                    val inputStream = URL(barcodeImage).openStream()
+                                    bookImage = BitmapFactory.decodeStream(inputStream)
+                                    val img = findViewById<ImageView>(R.id.imageButton)
+                                    img.setImageBitmap(bookImage)
                                 }
                                 if (volumeInfo.has("pageCount")) {
                                     val barcodePageCount = volumeInfo.getInt("pageCount")
@@ -400,6 +403,53 @@ class CreateActivity : AppCompatActivity() {
 
 
 }
+
+/*
+//APIをたたいてJSONを取得し、変数に保存する
+//API読み込み
+GlobalScope.launch {
+    val result = StringBuilder()
+    val uriBuilder = Uri.Builder()
+    uriBuilder.scheme("https")
+    uriBuilder.authority(MainActivity.API_URL_PREFIX)
+    uriBuilder.path("/books/v1/volumes")
+    uriBuilder.appendQueryParameter("q", "夏目漱石")
+    val uriStr = uriBuilder.build().toString()
+
+    try {
+        val url = URL(uriStr)
+        var con: HttpURLConnection? = null
+        con = url.openConnection() as HttpURLConnection
+        con!!.requestMethod = "GET"
+        con!!.doInput = true
+        con!!.connect() //HTTP接続
+        val `in` = con!!.inputStream
+        val inReader = InputStreamReader(`in`)
+        val bufReader = BufferedReader(inReader)
+        var line: String? = null
+        while (bufReader.readLine().also { line = it } != null) {
+            result.append(line)
+        }
+        Log.e("but", result.toString())
+        bufReader.close()
+        inReader.close()
+        `in`.close()
+    } catch (e: java.lang.Exception) { //エラー
+        Log.e("button", e.message)
+    }
+    try {
+        val json = JSONObject(result.toString())
+        val items: String = json.getString("items")
+        val itemsArray = JSONArray(items)
+        val bookInfo = itemsArray.getJSONObject(0).getJSONObject("volumeInfo")
+        val title = bookInfo.getString("title")
+        val publishedDate = bookInfo.getString("publishedDate")
+        println("タイトル：$title")
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+}
+ */
 
 
 

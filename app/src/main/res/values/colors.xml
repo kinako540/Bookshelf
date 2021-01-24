@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#554223</color>
     <color name="colorAccent">#F9A825</color>
 
-    <color name="gray1">#FAFAFA</color>
+    <color name="gray1">#A6A6A6</color>
+    <color name="gray2">#FAFAFA</color>
 
     <color name="usu_green">#377CD179</color>
     <color name="usu_orange">#37D1A679</color>

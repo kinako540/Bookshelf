@@ -7,6 +7,42 @@
     tools:context=".ui.info.main.TopFragment"
     android:background="#F4F4F4">
 
+    <TextView
+        android:id="@+id/dontHitText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center|center_horizontal"
+        android:lines="1"
+        android:text="※書籍がありません。"
+        android:textColor="#707070"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dontHitText2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center|center_horizontal"
+        android:lines="2"
+        android:text="検索条件をリセットするもしくは、書籍を追加してください。"
+        android:textAlignment="viewStart"
+        android:textColor="#707070"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dontHitText"
+        tools:ignore="RtlCompat" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
@@ -30,7 +66,7 @@
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray1"
+            android:background="@color/gray2"
             android:iconifiedByDefault="false"
             android:queryHint="検索"
             android:visibility="gone"
@@ -130,6 +166,8 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/fab4"
             app:layout_constraintEnd_toStartOf="@+id/fab4" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

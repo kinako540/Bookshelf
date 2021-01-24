@@ -28,7 +28,14 @@ import com.example.bookshelf.mlkit.VisionImageProcessor
 import com.example.bookshelf.ui.create.CreateActivity
 import com.example.bookshelf.mlkit.barcodescanner.BarcodeScannerProcessor
 import com.example.bookshelf.mlkit.preference.SettingsActivity
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 import kotlin.math.max
 
 

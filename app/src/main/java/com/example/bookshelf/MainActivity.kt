@@ -1,55 +1,39 @@
 package com.example.bookshelf
 
-import android.animation.StateListAnimator
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
-import android.telephony.cdma.CdmaCellLocation
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.SearchView
-import android.widget.Toast
-import androidx.activity.addCallback
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.navigation.ui.NavigationUI.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookshelf.Database.BookDBHelper
-import com.example.bookshelf.R.id.fab
-import com.example.bookshelf.R.id.search
-import com.example.bookshelf.ui.gallery.GalleryFragment
-import com.example.bookshelf.ui.home.HomeFragment
-import com.example.bookshelf.ui.info.main.TextFragment
-import com.example.bookshelf.ui.info.main.TopFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.common.base.Converter
-import kotlinx.android.synthetic.main.activity_info.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_slideshow.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.sql.Blob
-import java.util.*
-import kotlin.collections.ArrayList
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -71,6 +55,9 @@ class MainActivity : AppCompatActivity() {
         var selectCameraIntent = false
         //TRUEの時startChooseImageを実行する
         var selectChooseImageIntent = false
+
+        //API
+        private const val API_URL_PREFIX = "www.googleapis.com"
 
         //------------------------------------------------------------------------------------------
         // オリジナル
@@ -169,8 +156,11 @@ class MainActivity : AppCompatActivity() {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         //setupWithNavController(bottom_navigation, navController)
@@ -180,11 +170,11 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId){
                 R.id.nav_home -> {
                 }
-                R.id.nav_gallery   -> {
+                R.id.nav_gallery -> {
                     selectContents()
                 }
                 R.id.nav_slideshow -> {
-                    if(buttonS == false) {
+                    if (buttonS == false) {
                         buttonS = true
                         searchBar = true
                         search.visibility = View.VISIBLE
@@ -204,20 +194,18 @@ class MainActivity : AppCompatActivity() {
                                 return false
                             }
                         })
-                    }
-                    else if(buttonS == true) {
+                    } else if (buttonS == true) {
                         buttonS = false
                         searchBar = false
                         search.visibility = View.GONE
                     }
                 }
-                R.id.nav_clear   -> {
+                R.id.nav_clear -> {
                     ClearDialog()
                 }
             }
             return@setOnNavigationItemSelectedListener false
         }
-
 
     }
 
@@ -285,7 +273,7 @@ class MainActivity : AppCompatActivity() {
                     //バイトからビットマップへ変換
                     val blob: ByteArray = cursor.getBlob(1)
                     val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
-                    println("bookTitle["+selectNo+"]:"+bookTitle[selectNo])
+                    println("bookTitle[" + selectNo + "]:" + bookTitle[selectNo])
                     bookID[selectNo]          = (cursor.getInt(0))
                     bookimage[selectNo]       = (bitmap)
                     bookTitle[selectNo]       = (cursor.getString(2))
@@ -317,12 +305,12 @@ class MainActivity : AppCompatActivity() {
                 maxNo =  maxNo -1
             }
             defaultMaxNo = maxNo
-            println("最大値は"+maxNo)
-        }catch(exception: Exception) {
+            println("最大値は" + maxNo)
+        }catch (exception: Exception) {
             Log.e("selectData", exception.toString())
         }
     }
-    fun searchDate(name:String){
+    fun searchDate(name: String){
         try {
             val search = "'"+ name +"%'"
             println("検索:+$search")
@@ -339,7 +327,7 @@ class MainActivity : AppCompatActivity() {
                     //バイトからビットマップへ変換
                     val blob: ByteArray = cursor.getBlob(1)
                     val bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.size)
-                    println("bookTitle["+selectNo+"]:"+bookTitle[selectNo])
+                    println("bookTitle[" + selectNo + "]:" + bookTitle[selectNo])
                     bookID[selectNo]          = (cursor.getInt(0))
                     bookimage[selectNo]       = (bitmap)
                     bookTitle[selectNo]       = (cursor.getString(2))
@@ -371,11 +359,11 @@ class MainActivity : AppCompatActivity() {
                 maxNo =  maxNo -1
             }
             defaultMaxNo = maxNo
-            println("最大値は"+maxNo)
+            println("最大値は" + maxNo)
             if(bookID[0] == null){
                 maxNo = 0
             }
-        }catch(exception: Exception) {
+        }catch (exception: Exception) {
             Log.e("selectData", exception.toString())
         }
         finish()
@@ -383,7 +371,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(getIntent())
     }
 
-    fun deleteData(id : String){
+    fun deleteData(id: String){
         try {
             del = true
             val dbHelper = BookDBHelper(applicationContext, "Book", null, 1);
@@ -393,7 +381,7 @@ class MainActivity : AppCompatActivity() {
             val whereArgs = arrayOf(id)
             database.delete("Book", whereClauses, whereArgs)
             reload()
-        }catch(exception: Exception) {
+        }catch (exception: Exception) {
             Log.e("deleteData", exception.toString())
         }
     }
@@ -409,17 +397,24 @@ class MainActivity : AppCompatActivity() {
     //検索条件
     //----------------------------------------------------------------------------------------------
     private fun selectContents(){
-        val strList = arrayOf("作品ジャンル","対象年齢","所持状況","タグ")
+        val strList = arrayOf("作品ジャンル", "対象年齢", "所持状況", "タグ")
 
         AlertDialog.Builder(this) // FragmentではActivityを取得して生成
             .setTitle("検索条件")
             .setItems(strList) { dialog, which ->
-                println("押された→"+strList[which])
+                println("押された→" + strList[which])
                 when (which) {
-                    0 -> { selectGenre() }
-                    1 -> { selectRating() }
-                    2 -> { selectPosition() }
-                    3 -> {}
+                    0 -> {
+                        selectGenre()
+                    }
+                    1 -> {
+                        selectRating()
+                    }
+                    2 -> {
+                        selectPosition()
+                    }
+                    3 -> {
+                    }
                     else -> {}
                 }
             }
@@ -437,15 +432,23 @@ class MainActivity : AppCompatActivity() {
             allClear()
         }
         S_genre = 0
-        val strList = arrayOf("漫画","雑誌","小説","その他")
+        val strList = arrayOf("漫画", "雑誌", "小説", "その他")
         AlertDialog.Builder(this) // FragmentではActivityを取得して生成
             .setTitle("ラジオボタン選択ダイアログ")
             .setSingleChoiceItems(strList, 0) { dialog, which ->
                 when (which) {
-                    0 -> {S_genre = 0}
-                    1 -> {S_genre = 1}
-                    2 -> {S_genre = 2}
-                    3 -> {S_genre = 3}
+                    0 -> {
+                        S_genre = 0
+                    }
+                    1 -> {
+                        S_genre = 1
+                    }
+                    2 -> {
+                        S_genre = 2
+                    }
+                    3 -> {
+                        S_genre = 3
+                    }
                     else -> {S_genre = 0}
                 }
             }
@@ -466,15 +469,23 @@ class MainActivity : AppCompatActivity() {
             allClear()
         }
         S_rating = 0
-        val strList = arrayOf("全年齢対象","過激な表現あり","R-18","R-18G")
+        val strList = arrayOf("全年齢対象", "過激な表現あり", "R-18", "R-18G")
         AlertDialog.Builder(this) // FragmentではActivityを取得して生成
             .setTitle("対象年齢")
             .setSingleChoiceItems(strList, 0) { dialog, which ->
                 when (which) {
-                    0 -> {S_rating = 0}
-                    1 -> {S_rating = 1}
-                    2 -> {S_rating = 2}
-                    3 -> {S_rating = 3}
+                    0 -> {
+                        S_rating = 0
+                    }
+                    1 -> {
+                        S_rating = 1
+                    }
+                    2 -> {
+                        S_rating = 2
+                    }
+                    3 -> {
+                        S_rating = 3
+                    }
                     else -> {S_rating = 0}
                 }
             }
@@ -495,15 +506,23 @@ class MainActivity : AppCompatActivity() {
             allClear()
         }
         S_position = 0
-        val strList = arrayOf("未所持","デジタル","実物","両方")
+        val strList = arrayOf("未所持", "デジタル", "実物", "両方")
         AlertDialog.Builder(this) // FragmentではActivityを取得して生成
             .setTitle("所持状況")
             .setSingleChoiceItems(strList, 0) { dialog, which ->
                 when (which) {
-                    0 -> { S_position = 0}
-                    1 -> { S_position = 1}
-                    2 -> { S_position = 2}
-                    3 -> { S_position = 3}
+                    0 -> {
+                        S_position = 0
+                    }
+                    1 -> {
+                        S_position = 1
+                    }
+                    2 -> {
+                        S_position = 2
+                    }
+                    3 -> {
+                        S_position = 3
+                    }
                     else -> { S_position= 0}
                 }
             }
@@ -576,7 +595,7 @@ class MainActivity : AppCompatActivity() {
         T_linkURL  = linkURL
 
         //漫画
-        println("S_genre = "+S_genre)
+        println("S_genre = " + S_genre)
         if(S_genre == 0){
             var cnt:Int = 0
             for(i in 0..maxNo){
@@ -619,11 +638,11 @@ class MainActivity : AppCompatActivity() {
         }
         //------------------------------------------------------------------------------------------
         //対象年齢
-        println("S_rating = "+S_rating)
+        println("S_rating = " + S_rating)
         if(S_rating == 0){
             var cnt:Int = 0
             for(i in 0..maxNo){
-                println("T_rating[i]="+T_rating[i])
+                println("T_rating[i]=" + T_rating[i])
                 if(T_rating[i] == "全年齢対象"){
                     tempNo2[cnt] = i
                     cnt++
@@ -663,11 +682,11 @@ class MainActivity : AppCompatActivity() {
         }
         //------------------------------------------------------------------------------------------
         //対象年齢
-        println("S_position = "+ S_position)
+        println("S_position = " + S_position)
         if(S_position == 0){
             var cnt:Int = 0
             for(i in 0..maxNo){
-                println("T_position[i]="+ T_possession[i])
+                println("T_position[i]=" + T_possession[i])
                 if(T_possession[i] == "未所持"){
                     tempNo3[cnt] = i
                     cnt++
@@ -678,7 +697,7 @@ class MainActivity : AppCompatActivity() {
         if(S_position == 1){
             var cnt:Int = 0
             for(i in 0..maxNo){
-                println("T_position[i]="+ T_possession[i])
+                println("T_position[i]=" + T_possession[i])
                 if(T_possession[i] == "デジタル"){
                     tempNo3[cnt] = i
                     cnt++
@@ -689,7 +708,7 @@ class MainActivity : AppCompatActivity() {
         if(S_position == 2){
             var cnt:Int = 0
             for(i in 0..maxNo){
-                println("T_position[i]="+ T_possession[i])
+                println("T_position[i]=" + T_possession[i])
                 if(T_possession[i] == "実物"){
                     tempNo3[cnt] = i
                     cnt++
@@ -700,7 +719,7 @@ class MainActivity : AppCompatActivity() {
         if(S_position == 3){
             var cnt:Int = 0
             for(i in 0..maxNo){
-                println("T_position[i]="+ T_possession[i])
+                println("T_position[i]=" + T_possession[i])
                 if(T_possession[i] == "両方"){
                     tempNo3[cnt] = i
                     cnt++
@@ -730,7 +749,7 @@ class MainActivity : AppCompatActivity() {
             for(i1 in 0..maxCnt1-1) {
                 for (i2 in 0..maxCnt2-1) {
                     if(tempNo1[i1] == tempNo2[i2]){
-                        println("一致：tempNo1["+i1+"] = "+ tempNo1[i1] + " == tempNo2["+i2+"] = "+ tempNo2[i2])
+                        println("一致：tempNo1[" + i1 + "] = " + tempNo1[i1] + " == tempNo2[" + i2 + "] = " + tempNo2[i2])
                         masterTempNo[cnt] = tempNo2[i2]
                         cnt++
                         masterMaxCnt = cnt
@@ -764,7 +783,7 @@ class MainActivity : AppCompatActivity() {
             masterMaxCnt = maxCnt3
         }
         clearDate()
-        println("masterMaxCnt = "+masterMaxCnt)
+        println("masterMaxCnt = " + masterMaxCnt)
         maxNo = masterMaxCnt
 
         for(i in 0..masterMaxCnt-1){
@@ -833,7 +852,7 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
     //起動
-    public fun startBrowser(url:String){
+    public fun startBrowser(url: String){
         val uri = Uri.parse("url")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)

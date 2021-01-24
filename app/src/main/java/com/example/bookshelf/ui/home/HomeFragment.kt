@@ -43,6 +43,15 @@ class HomeFragment : Fragment() {
             shutdownLog()
         }
 
+        if(MainActivity.bookTitle[0] != null){
+            dontHitText.visibility = View.GONE
+            dontHitText2.visibility = View.GONE
+        }
+        else if(MainActivity.bookTitle[0] == null){
+            dontHitText.visibility = View.VISIBLE
+            dontHitText2.visibility = View.VISIBLE
+        }
+
         hideBottomNav()
         hideBottomNav2()
 

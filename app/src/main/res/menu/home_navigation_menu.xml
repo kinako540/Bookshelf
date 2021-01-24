@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_gallery"
-        android:icon="@drawable/ic_menu_gallery"
+        android:icon="@drawable/tetyou"
         android:title="条件"/>
     <item
         android:id="@+id/nav_slideshow"
-        android:icon="@drawable/ic_menu_slideshow"
+        android:icon="@drawable/musimegane"
         android:title="検索"/>
     <item
         android:id="@+id/nav_clear"
-        android:icon="@drawable/ic_menu_camera"
+        android:icon="@drawable/batu"
         android:title="クリア"/>
 </menu>
