@@ -34,9 +34,9 @@ class PlaceholderFragment : Fragment() {
         val firstImage: ImageView = root.findViewById(R.id.section_label)
         pageViewModel.text.observe(viewLifecycleOwner, Observer<String> {
             when(it){
-                "2" -> firstImage.setImageResource(R.drawable.welcome2)
+                "2" -> firstImage.setImageResource(R.drawable.create)
 
-                else -> firstImage.setImageResource(R.drawable.welcome1)
+                else -> firstImage.setImageResource(R.drawable.main)
             }
         })
         return root
